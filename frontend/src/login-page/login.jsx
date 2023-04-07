@@ -3,7 +3,7 @@ import logoOsis from './login-aset/logo-osis.png'
 
 export default function LoginPage({ click }) {
     return (
-        <div className={`flex items-center overflow-hidden w-full h-screen bg-login bg-cover flex-col justify-start gap-0 sm:gap-4 sm:justify-center`}>
+        <div className={`flex items-center w-full h-screen bg-login bg-cover flex-col justify-start gap-0 sm:gap-4 sm:justify-center`}>
             <div className="flex items-center m-4 gap-52 sm:m-0 sm:gap-10">
                 <img src={logoSmk} alt="logo smkn 1 kebumen" className="bg-white rounded-full w-16 h-16" />
                 <img src={logoOsis} alt="logo osis" className="w-16 h-[4.5rem]" />
