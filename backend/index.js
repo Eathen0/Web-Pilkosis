@@ -14,13 +14,12 @@ const storage = multer.diskStorage({
     cb(null, "paslon/");
   },
   filename: function (req, file, cb) {
-    console.log(req.body);
+    // console.log(req.body);
     const namaFile = `${req.body.nama_paslon}-${Time()}.${
       file.mimetype.split("/")[1]
     }`;
 
     cb(null, namaFile);
-    // addFotoPaslon(namaFile, req.body.nama_paslon);
   },
 });
 
@@ -93,7 +92,7 @@ const addFotoPaslon = (namaFile, namaPaslon) => {
     `INSERT INTO paslon (foto) VALUES (${namaFile}) WHERE nama_paslon = ${namaPaslon}`,
     (err, result, field) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   );
@@ -108,14 +107,16 @@ app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
   const ketua = req.body.calon_ketua;
   const proker = req.body.proker;
   const wakil = req.body.calon_wakil;
-
-  console.log(req.body);
+  // console.log(req.body);
   // const query = ;
-
   koneksi.query(
-    `INSERT INTO paslon ('no_paslon', 'nama_paslon', 'visi, misi', 'calon_ketua', 'calon_wakil', 'proker') VALUES (${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}')`,
+    `INSERT INTO paslon (no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, foto) VALUES (${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${req.file.filename}')`,
     (err, result, field) => {
-      console.log(err);
+      if (result) {
+        res.status(200).json({
+          status: "Berhasil",
+        });
+      }
     }
   );
 });
