@@ -19,9 +19,12 @@ const Time = () => {
   const menit = waktu.getMinutes();
   const detik = waktu.getSeconds();
 
-  const waktunya = `${hari} ${tanggal}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
+  const waktunya = `${hari}_${tanggal}_${bulan}_${tahun}_${jam}_${menit}_${detik}`;
+  const untukNamaFile = ``;
 
   return waktunya;
+  //
+  // return untukNamaFile;
 };
 
 // console.log(Time());
