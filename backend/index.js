@@ -53,7 +53,7 @@ app.get("/login", (req, res) => {
   const paswd = req.query.password;
 
   koneksi.query(
-    `SELECT id, nama, username, password, status, hak, pilihan FROM user WHERE username = '${username}' `,
+    `SELECT id, nama, username, password, status, hak, pilihan FROM user_ WHERE username = '${username}' `,
     (err, result, field) => {
       // console.log(result);
       const data = Object.values(JSON.parse(JSON.stringify(result))); // MENGAMBIL DATA DI RowDataPacket
@@ -89,7 +89,7 @@ app.get("/login", (req, res) => {
 
 const addFotoPaslon = (namaFile, namaPaslon) => {
   koneksi.query(
-    `INSERT INTO paslon (foto) VALUES (${namaFile}) WHERE nama_paslon = ${namaPaslon}`,
+    `INSERT INTO paslon_ (foto) VALUES (${namaFile}) WHERE nama_paslon = ${namaPaslon}`,
     (err, result, field) => {
       if (err) {
         // console.log(err);
@@ -110,7 +110,7 @@ app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
   // console.log(req.body);
   // const query = ;
   koneksi.query(
-    `INSERT INTO paslon (no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, foto) VALUES (${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${req.file.filename}')`,
+    `INSERT INTO paslon_ (no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, foto) VALUES (${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${req.file.filename}')`,
     (err, result, field) => {
       if (result) {
         res.status(200).json({
