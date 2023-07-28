@@ -2,7 +2,12 @@ import express from "express";
 import cors from "cors";
 import mysql from "mysql";
 import multer from "multer";
+import path from "path";
 import Time from "./Time/time.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -11,19 +16,20 @@ app.use(cors());
 const storage = multer.diskStorage({
   // MENENTUKAN TEMPAT UPLOAD
   destination: function (req, file, cb) {
-    cb(null, "paslon/");
+    cb(null, "tmp/uploads");
   },
   filename: function (req, file, cb) {
     // console.log(req.body);
-    const namaFile = `${req.body.nama_paslon}-${Time()}.${
+    const namaFile = `${req.body.nama_paslon}_${Time()}.${
       file.mimetype.split("/")[1]
     }`;
 
     cb(null, namaFile);
+    // console.log(req.body);
   },
 });
 
-const upload = multer({ storage: storage }); // INISIALISASI UPLOAD
+const upload = multer({ storage: storage });
 
 // KONEKSI KE DATABASE MYSQL
 
@@ -61,6 +67,7 @@ app.get("/login", (req, res) => {
         // JIKA DATA ADA MAKA AKAN DIJALANKAN
         let userData = {
           // MENAMPUNG DATA USER
+
           id: data[0].id,
           nama: data[0].nama,
           username: data[0].username,
@@ -87,16 +94,28 @@ app.get("/login", (req, res) => {
   );
 });
 
-const addFotoPaslon = (namaFile, namaPaslon) => {
+app.get("/getPemilih", (req, res) => {
   koneksi.query(
-    `INSERT INTO paslon_ (foto) VALUES (${namaFile}) WHERE nama_paslon = ${namaPaslon}`,
+    "SELECT * FROM user_ WHERE status = 1",
     (err, result, field) => {
-      if (err) {
-        // console.log(err);
+      if (result) {
+        res.status(200).json(result);
       }
     }
   );
-};
+});
+
+// const addFotoPaslon = (namaFile, namaPaslon) => {
+//   koneksi.query(
+//     `INSERT INTO paslon_ (fotonya) VALUES (${namaFile}) WHERE nama_paslon = ${namaPaslon}`,
+//     (err, result, field) => {
+//       if (err) {
+//         // console.log(err);
+//       }
+//       console.log("ofndmx");
+//     }
+//   );
+// };55555555555555555555555555555555555555555555
 
 app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
   // res.json(req.body);
@@ -107,18 +126,62 @@ app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
   const ketua = req.body.calon_ketua;
   const proker = req.body.proker;
   const wakil = req.body.calon_wakil;
-  // console.log(req.body);
-  // const query = ;
+  let namaFile = req.file.filename;
+  // console.log(namaFile);
+
   koneksi.query(
-    `INSERT INTO paslon_ (no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, foto) VALUES (${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${req.file.filename}')`,
+    `INSERT INTO paslonnya (id, no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, fotonya) VALUES (NULL, ${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${namaFile}')`,
     (err, result, field) => {
       if (result) {
+        res.send("berhasil");
+        console.log(result);
+        // addFotoPaslon(namaFile, namaPaslon);
+      }
+    }
+  );
+});
+
+app.get("/picture/:paslon", (req, res) => {
+  const paslon = req.params.paslon;
+  koneksi.query(
+    `SELECT fotonya FROM paslonnya WHERE nama_paslon = '${paslon}'`,
+    (err, result, field) => {
+      if (result) {
+        const data = Object.values(JSON.parse(JSON.stringify(result)));
+        res.sendFile(`tmp/uploads/${data[0].fotonya}`, { root: __dirname });
+      }
+    }
+  );
+});
+
+app.post("/vote", (req, res) => {
+  const username = req.query.username;
+  const pilihan = req.query.pilihan;
+
+  koneksi.query(
+    `UPDATE paslonnya SET total=total+1 WHERE no_paslon=${pilihan}`,
+    (err, result, field) => {
+      if (result.affectedRows == 1) {
         res.status(200).json({
-          status: "Berhasil",
+          status: "berhasil",
+        });
+        koneksi.query(
+          `UPDATE user_ SET pilihan='${pilihan}', status=1 WHERE username='${username}'`
+        );
+      } else {
+        res.status(404).json({
+          status: "gagal",
         });
       }
     }
   );
+});
+app.get("/pilihan", (req, res) => {
+  koneksi.query("SELECT * FROM `paslonnya`", (err, result, field) => {
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
 });
 
 app.listen(PORT, () => {

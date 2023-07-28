@@ -1,11 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logoSmk from "./login-aset/logo-smk.png";
 import logoOsis from "./login-aset/logo-osis.png";
 
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [respon, setRespon] = useState();
+
+  useEffect(() => {
+    localStorage.setItem("token", JSON.stringify(respon));
+    console.log("Tes");
+  }, [respon]);
 
   const login = () => {
     axios({
@@ -15,7 +21,14 @@ export default function LoginPage({ click }) {
         username,
         password,
       },
-    }).then((res) => console.log(res));
+    })
+      .then((res) => {
+        setRespon(res.data);
+        console.log("Berhasil");
+      })
+      .catch((err) => {
+        console.log("Login error");
+      });
   };
 
   return (
