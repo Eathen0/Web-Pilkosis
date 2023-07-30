@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import LoginPage from './login-page/login'
-import UserPage from './user-page/user'
+import User from './User/userComponent/user'
+import Admin from './Admin/adminComponent/admin'
 
-function App() {
-  const [swich, setSwich] = useState(false)
-  const [pageName, setPageName] = useState("login")
-  
-  
-  function handle() {
-    swich ? setPageName("login") : setPageName("pilkosis")
-    setSwich(!swich)
-  }
+export default function App() {
+  // const [swich, setSwich] = useState(false)
+  // const [pageName, setPageName] = useState("login")
+  // function handle() {
+  //   swich ? setPageName("login") : setPageName("pilkosis")
+  //   setSwich(!swich)
+  // }
 
-  useEffect(() => {
-    document.title = pageName
-  }, [pageName])
+  // useEffect(() => {
+  //   document.title = pageName
+  // }, [pageName])
+
 
   return (
-    <div className="App">
-      {swich ? <UserPage onClick={handle}/> : <LoginPage click={handle}/>}
-    </div>
+    < >
+        <Router>
+          <Routes>
+            <Route path='/' element={<LoginPage />} />
+            <Route path='/User' element={<User />} />
+            <Route path='/Admin' element={<Admin />} />
+          </Routes>
+        </Router>
+    </>
   )
 }
-
-export default App

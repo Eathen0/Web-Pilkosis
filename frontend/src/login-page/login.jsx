@@ -1,7 +1,7 @@
 import logoSmk from './login-aset/logo-smk.png'
 import logoOsis from './login-aset/logo-osis.png'
 
-export default function LoginPage({ click }) {
+export default function LoginPage( props ) {
     return (
         <div className={`flex items-center w-full h-screen bg-login bg-cover flex-col justify-start gap-0 sm:gap-4 sm:justify-center`}>
             <div className="flex items-center m-4 gap-52 sm:m-0 sm:gap-10">
@@ -31,7 +31,7 @@ export default function LoginPage({ click }) {
                         <button
                         className="bg-blue-500 hover:bg-cyan-500 transition text-white font-bold py-2 px-4 rounded-lg"
                         type="button"
-                        onClick={click}
+                        onClick={props.click}
                         >
                         Login
                         </button>
