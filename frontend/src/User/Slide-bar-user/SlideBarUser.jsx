@@ -1,6 +1,6 @@
 export default function SlideBar( props ) {
     return (
-        <div className={`${props.slideBarOff ? "w-64" : "w-[3.9rem]"} overflow-hidden gap-12 font-sans text-white transition-[width] ease-in-out duration-500 h-screen bg-[#475A7B] p-4 fixed flex flex-col`}>
+        <div className={`${props.slideBarOff ? "w-64" : "w-[3.9rem]"} overflow-hidden gap-12 font-sans text-white transition-[width] ease-in-out duration-500 h-screen bg-[#40128B] p-4 fixed flex flex-col`}>
             <div className="flex flex-col gap-2">
                 {props.slideBarOff ? 
                     <svg className={`${props.slideBarOff ? "rotate-0" : "-rotate-180"} transition-transform duration-500 cursor-pointer`} onClick={() => props.slideBar(!props.slideBarOff) } version="1.1" id="Layer_1" fill="white" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 122.878 122.88" enableBackground="new 0 0 122.878 122.88" xmlSpace="preserve">
