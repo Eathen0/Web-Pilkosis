@@ -184,6 +184,13 @@ app.get("/pilihan", (req, res) => {
   });
 });
 
+app.post("/bataswaktu", (req, res) => {
+  const mualai = req.body.mulai;
+  const selesai = req.body.selesai;
+
+  koneksi.query(`SELECT INTO data`);
+});
+
 app.listen(PORT, () => {
   console.log(`Berjalan di port ${PORT}`);
 });
