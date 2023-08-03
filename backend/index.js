@@ -5,6 +5,7 @@ import multer from "multer";
 import path from "path";
 import Time from "./Time/time.js";
 import { fileURLToPath } from "url";
+import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +21,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // console.log(req.body);
-    const namaFile = `${req.body.nama_paslon}_${Time()}.${
+    const namaFile = `${req.body.nama}_${Time()}.${
       file.mimetype.split("/")[1]
     }`;
 
@@ -176,6 +177,7 @@ app.post("/vote", (req, res) => {
     }
   );
 });
+
 app.get("/pilihan", (req, res) => {
   koneksi.query("SELECT * FROM `paslonnya`", (err, result, field) => {
     if (result) {
@@ -184,11 +186,36 @@ app.get("/pilihan", (req, res) => {
   });
 });
 
+app.post("/calonketua", upload.single("fotoketua"), (req, res) => {
+  const nama = req.body.nama;
+  const visi = req.body.visi;
+  const misi = req.body.misi;
+  const nomor = req.body.nomor;
+  const proker = req.body.proker;
+  const foto = req.file.filename;
+
+  koneksi.query(
+    `INSERT INTO calon_ketua (id, nama, visi, misi, nomor, proker, foto) VALUES (NULL, '${nama}', '${visi}', '${misi}', '${nomor}', '${proker}', '${foto}');`,
+    (err, result, field) => {
+      console.log(err);
+    }
+  );
+});
+
+app.get("/calonketua", (req, res) => {
+  koneksi.query("SELECT * FROM calon_ketua", (err, result, field) => {
+    if (result) {
+      res.status(200).json(result);
+    }
+    console.log(req.hostname);
+  });
+});
+
 app.post("/bataswaktu", (req, res) => {
   const mualai = req.body.mulai;
   const selesai = req.body.selesai;
 
-  koneksi.query(`SELECT INTO data`);
+  // koneksi.query(`SELECT INTO calon-`);
 });
 
 app.listen(PORT, () => {
