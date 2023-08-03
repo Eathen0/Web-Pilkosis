@@ -186,30 +186,30 @@ app.get("/pilihan", (req, res) => {
   });
 });
 
-app.post("/calonketua", upload.single("fotoketua"), (req, res) => {
-  const nama = req.body.nama;
-  const visi = req.body.visi;
-  const misi = req.body.misi;
-  const nomor = req.body.nomor;
-  const proker = req.body.proker;
-  const foto = req.file.filename;
+// app.post("/calonketua", upload.single("fotoketua"), (req, res) => {
+//   const nama = req.body.nama;
+//   const visi = req.body.visi;
+//   const misi = req.body.misi;
+//   const nomor = req.body.nomor;
+//   const proker = req.body.proker;
+//   const foto = req.file.filename;
 
-  koneksi.query(
-    `INSERT INTO calon_ketua (id, nama, visi, misi, nomor, proker, foto) VALUES (NULL, '${nama}', '${visi}', '${misi}', '${nomor}', '${proker}', '${foto}');`,
-    (err, result, field) => {
-      console.log(err);
-    }
-  );
-});
+//   koneksi.query(
+//     `INSERT INTO calon_ketua (id, nama, visi, misi, nomor, proker, foto) VALUES (NULL, '${nama}', '${visi}', '${misi}', '${nomor}', '${proker}', '${foto}');`,
+//     (err, result, field) => {
+//       console.log(err);
+//     }
+//   );
+// });
 
-app.get("/calonketua", (req, res) => {
-  koneksi.query("SELECT * FROM calon_ketua", (err, result, field) => {
-    if (result) {
-      res.status(200).json(result);
-    }
-    console.log(req.hostname);
-  });
-});
+// app.get("/calonketua", (req, res) => {
+//   koneksi.query("SELECT * FROM calon_ketua", (err, result, field) => {
+//     if (result) {
+//       res.status(200).json(result);
+//     }
+//     console.log(req.hostname);
+//   });
+// });
 
 app.post("/bataswaktu", (req, res) => {
   const mualai = req.body.mulai;
