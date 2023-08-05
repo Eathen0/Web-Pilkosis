@@ -1,10 +1,25 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-        
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
+import "./index.css";
+import User from "./User/userComponent/user";
+import Admin from "./Admin/adminComponent/admin";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <>
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/app" element={<User />} />
+        <Route path="/Admin" element={<Admin />} />
+      </Routes>
+    </Router>
+  </>
+);

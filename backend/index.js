@@ -218,6 +218,7 @@ app.post("/bataswaktu", (req, res) => {
   // koneksi.query(`SELECT INTO calon-`);
 });
 
-app.listen(PORT, () => {
+const listener = app.listen(PORT, () => {
   console.log(`Berjalan di port ${PORT}`);
+  console.log(listener.address());
 });

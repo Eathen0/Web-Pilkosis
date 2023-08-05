@@ -6,12 +6,11 @@ import logoOsis from "./login-aset/logo-osis.png";
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [respon, setRespon] = useState();
+  // const [respon, setRespon] = useState();
 
-  useEffect(() => {
-    localStorage.setItem("token", JSON.stringify(respon));
-    console.log("Tes");
-  }, [respon]);
+  // useEffect(() => {
+  //   console.log("Tes");
+  // }, [respon]);
 
   const login = () => {
     axios({
@@ -23,8 +22,11 @@ export default function LoginPage({ click }) {
       },
     })
       .then((res) => {
-        setRespon(res.data);
+        // setRespon(res.data);
+        localStorage.setItem("login", JSON.stringify(res.data));
+
         console.log("Berhasil");
+        window.location.reload();
       })
       .catch((err) => {
         console.log("Login error");

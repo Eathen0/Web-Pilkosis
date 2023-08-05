@@ -1,11 +1,19 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
 
-import LoginPage from './login-page/login'
-import User from './User/userComponent/user'
-import Admin from './Admin/adminComponent/admin'
+import LoginPage from "./login-page/login";
+import User from "./User/userComponent/user";
+import Admin from "./Admin/adminComponent/admin";
 
 export default function App() {
+  const navigate = useNavigate();
+
   // const [swich, setSwich] = useState(false)
   // const [pageName, setPageName] = useState("login")
   // function handle() {
@@ -13,20 +21,17 @@ export default function App() {
   //   setSwich(!swich)
   // }
 
-  // useEffect(() => {
-  //   document.title = pageName
-  // }, [pageName])
-
+  useEffect(() => {
+    const token = localStorage.getItem("login");
+    if (token) {
+      navigate("/app");
+    }
+    // console.log(token);
+  }, []);
 
   return (
-    < >
-        <Router>
-          <Routes>
-            <Route path='/' element={<LoginPage />} />
-            <Route path='/User' element={<User />} />
-            <Route path='/Admin' element={<Admin />} />
-          </Routes>
-        </Router>
+    <>
+      <LoginPage />
     </>
-  )
+  );
 }
