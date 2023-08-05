@@ -10,9 +10,8 @@ import os from "os";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 8080;
 const app = express();
-app.use(cors());
 
 const storage = multer.diskStorage({
   // MENENTUKAN TEMPAT UPLOAD
@@ -21,7 +20,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // console.log(req.body);
-    const namaFile = `${req.body.nama}_${Time()}.${
+    const namaFile = `${req.body.nama_paslon}_${Time()}.${
       file.mimetype.split("/")[1]
     }`;
 
@@ -43,6 +42,9 @@ const koneksi = mysql.createConnection({
 
 // KONEKSI KE DATABASE MYSQL
 koneksi.connect();
+
+app.use(cors());
+// app.use("/api", );
 
 app.get("/", (req, res) => {
   res.json({
@@ -118,7 +120,7 @@ app.get("/getPemilih", (req, res) => {
 //   );
 // };55555555555555555555555555555555555555555555
 
-app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
+app.post("/paslon", upload.single("foto"), (req, res) => {
   // res.json(req.body);
   const noPaslon = parseInt(req.body.no_paslon);
   const namaPaslon = req.body.nama_paslon;
@@ -134,8 +136,14 @@ app.post("/tambahpaslon", upload.single("foto"), (req, res) => {
     `INSERT INTO paslonnya (id, no_paslon, nama_paslon, visi, misi, calon_ketua, calon_wakil, proker, fotonya) VALUES (NULL, ${noPaslon}, '${namaPaslon}', '${visi}', '${misi}', '${ketua}', '${wakil}', '${proker}', '${namaFile}')`,
     (err, result, field) => {
       if (result) {
-        res.send("berhasil");
-        console.log(result);
+        res.status(200).json({
+          status: "berhasil",
+        });
+        if (err) {
+          res.status(400).json({
+            status: "gagal",
+          });
+        }
         // addFotoPaslon(namaFile, namaPaslon);
       }
     }
@@ -178,12 +186,28 @@ app.post("/vote", (req, res) => {
   );
 });
 
-app.get("/pilihan", (req, res) => {
+app.get("/paslon", (req, res) => {
   koneksi.query("SELECT * FROM `paslonnya`", (err, result, field) => {
     if (result) {
       res.status(200).json(result);
     }
   });
+});
+app.get("/paslon/:no_paslon", (req, res) => {
+  const no_paslon = req.params.no_paslon;
+  koneksi.query(
+    `SELECT * FROM paslonnya WHERE no_paslon = ${no_paslon}`,
+    (err, result, field) => {
+      if (result) {
+        res.status(200).json(result);
+      }
+      if (err) {
+        res.status(404).json({
+          status: "Paslon tidak ditemukan",
+        });
+      }
+    }
+  );
 });
 
 // app.post("/calonketua", upload.single("fotoketua"), (req, res) => {
