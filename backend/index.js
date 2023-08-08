@@ -5,7 +5,6 @@ import multer from "multer";
 import path from "path";
 import Time from "./Time/time.js";
 import { fileURLToPath } from "url";
-import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -193,13 +192,19 @@ app.get("/paslon", (req, res) => {
     }
   });
 });
+
 app.get("/paslon/:no_paslon", (req, res) => {
+  console.log(req.headers.host);
+
   const no_paslon = req.params.no_paslon;
   koneksi.query(
     `SELECT * FROM paslonnya WHERE no_paslon = ${no_paslon}`,
     (err, result, field) => {
       if (result) {
-        res.status(200).json(result);
+        res.status(200).json({
+          data: result,
+          gambar: `http://${req.headers.host}/picture/${result[0].nama_paslon}`,
+        });
       }
       if (err) {
         res.status(404).json({
@@ -244,5 +249,5 @@ app.post("/bataswaktu", (req, res) => {
 
 const listener = app.listen(PORT, () => {
   console.log(`Berjalan di port ${PORT}`);
-  console.log(listener.address());
+  // console.log(listener.address());
 });
