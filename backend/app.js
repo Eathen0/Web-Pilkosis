@@ -222,6 +222,19 @@ app.post("/api/vote", (req, res) => {
       }
     });
 });
+app.get("/api/pemilih", (req, res) => {
+  db.collection("user")
+    .find({ status: 1 })
+    .toArray()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        message: "Gagal mendapatkan data pemilih",
+      });
+    });
+});
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
 });
