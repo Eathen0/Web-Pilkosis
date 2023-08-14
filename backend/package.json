@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .",
+    "start": "node app.js",
     "mongo": "nodemon app.js",
     "dev": "nodemon ."
   },
@@ -20,5 +20,9 @@
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/multer": "^1.4.7"
+  }
 }

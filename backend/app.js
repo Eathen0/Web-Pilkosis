@@ -1,10 +1,9 @@
 import express from "express";
-import bodyParser from "body-parser";
 import { MongoClient } from "mongodb";
 const url = "mongodb://localhost:27017";
 const dbName = "pilkosis";
 import { fileURLToPath } from "url";
-import path, { parse } from "path";
+import path from "path";
 import multer from "multer";
 
 import Time from "./Time/time.js";
@@ -61,7 +60,7 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/login", (req, res) => {
-  const username = req.query.username;
+  const username = req.query.username.toString();
   const paswd = req.query.password;
 
   let statusLogin = false;
