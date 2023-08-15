@@ -1,12 +1,17 @@
 import express from "express";
 import { MongoClient } from "mongodb";
-const url = "mongodb://localhost:27017";
-const dbName = "pilkosis";
 import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
+import axios from "axios";
+import FormData from "form-data";
 
 import Time from "./Time/time.js";
+
+const api_keyUpGambar =
+  process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const dbName = "pilkosis";
 const app = express();
 const PORT = 8080 || process.env.PORT;
 
@@ -15,13 +20,10 @@ const client = new MongoClient(url, {
   useUnifiedTopology: true,
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const storage = multer.diskStorage({
   // MENENTUKAN TEMPAT UPLOAD
   destination: function (req, file, cb) {
-    cb(null, "tmp/uploads");
+    cb(null, "tmp/");
   },
   filename: function (req, file, cb) {
     // console.log(req.body);
@@ -33,7 +35,7 @@ const storage = multer.diskStorage({
     // console.log(req.body);
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({});
 
 // console.log(getJam());
 
@@ -44,6 +46,8 @@ client.connect((err, client) => {
     console.log("Berhasil konek ke mongo db");
   }
 });
+
+// console.log(process.env);
 
 const db = client.db(dbName);
 
@@ -101,7 +105,7 @@ app.get("/api/login", (req, res) => {
     });
 });
 
-app.post("/api/paslon", upload.single("foto"), (req, res) => {
+app.post("/api/paslon", upload.single("file"), (req, res) => {
   const noPaslon = parseInt(req.body.no_paslon);
   const namaPaslon = req.body.nama_paslon;
   const visi = req.body.visi;
@@ -109,32 +113,66 @@ app.post("/api/paslon", upload.single("foto"), (req, res) => {
   const ketua = req.body.calon_ketua;
   const proker = req.body.proker;
   const wakil = req.body.calon_wakil;
-  let namaFile = req.file.filename;
 
-  console.log(req.body);
+  // console.log(req.file);
 
-  db.collection("paslon")
-    .insertOne({
-      no_paslon: noPaslon,
-      nama_paslon: namaPaslon,
-      visi: visi,
-      misi: misi,
-      calon_ketua: ketua,
-      calon_wakil: wakil,
-      proker: proker,
-      fotonya: namaFile,
-    })
-    .then((result) => {
-      res.status(200).json({
-        message: "Berhasil menambahkan paslon",
+  let data = new FormData();
+  data.append("key", "e0f70b04483970cd5bec8a44e8faaf14");
+  data.append("image", req.file.buffer.toString("base64"));
+
+  console.log();
+
+  axios({
+    method: "post",
+    url: "https://api.imgbb.com/1/upload",
+    data: data,
+  }).then((response) => {
+    db.collection("paslon")
+      .insertOne({
+        no_paslon: noPaslon,
+        nama_paslon: namaPaslon,
+        visi: visi,
+        misi: misi,
+        calon_ketua: ketua,
+        calon_wakil: wakil,
+        proker: proker,
+        fotonya: response.data.image.url,
+      })
+      .then((result) => {
+        res.status(200).json({
+          message: "Berhasil menambahkan paslon",
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          message: "Gagal menambahkan paslon",
+        });
       });
-    })
-    .catch((err) => {
-      res.status(400).json({
-        message: "Gagal menambahkan paslon",
-      });
-    });
+  });
 });
+
+// db.collection("paslon")
+//   .insertOne({
+//     no_paslon: noPaslon,
+//     nama_paslon: namaPaslon,
+//     visi: visi,
+//     misi: misi,
+//     calon_ketua: ketua,
+//     calon_wakil: wakil,
+//     proker: proker,
+//     fotonya: namaFile,
+//   })
+//   .then((result) => {
+//     res.status(200).json({
+//       message: "Berhasil menambahkan paslon",
+//     });
+//   })
+//   .catch((err) => {
+//     res.status(400).json({
+//       message: "Gagal menambahkan paslon",
+//     });
+//   });
+// });
 app.get("/api/paslon", (req, res) => {
   db.collection("paslon")
     .find()
