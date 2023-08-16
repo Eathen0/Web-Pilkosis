@@ -43,12 +43,6 @@ export default function User() {
 
   return (
     <>
-      <PopUp
-        show={showPopUp}
-        popUpH={setShowPopUp}
-        misiMelection={misiSelect}
-        prokerSelect={prokerSelect}
-      />
       <SlideBar
         item={{
           title: ["Daftar paslon", "About", "Feedback", "Logout"],
