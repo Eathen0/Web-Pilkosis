@@ -1,42 +1,24 @@
 import express from "express";
 import { MongoClient } from "mongodb";
-import { fileURLToPath } from "url";
-import path from "path";
 import multer from "multer";
 import axios from "axios";
 import FormData from "form-data";
 
-import Time from "./Time/time.js";
+// import Time from "./Time/time.js";
 
 const api_keyUpGambar =
   process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 const client = new MongoClient(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const storage = multer.diskStorage({
-  // MENENTUKAN TEMPAT UPLOAD
-  destination: function (req, file, cb) {
-    cb(null, "tmp/");
-  },
-  filename: function (req, file, cb) {
-    // console.log(req.body);
-    const namaFile = `${req.body.nama_paslon}_${Time()}.${
-      file.mimetype.split("/")[1]
-    }`;
-
-    cb(null, namaFile);
-    // console.log(req.body);
-  },
-});
 const upload = multer({});
-
 // console.log(getJam());
 
 client.connect((err, client) => {
@@ -105,7 +87,7 @@ app.get("/api/login", (req, res) => {
     });
 });
 
-app.post("/api/paslon", upload.single("file"), (req, res) => {
+app.post("/api/paslon", upload.single("foto"), (req, res) => {
   const noPaslon = parseInt(req.body.no_paslon);
   const namaPaslon = req.body.nama_paslon;
   const visi = req.body.visi;
@@ -114,19 +96,16 @@ app.post("/api/paslon", upload.single("file"), (req, res) => {
   const proker = req.body.proker;
   const wakil = req.body.calon_wakil;
 
-  // console.log(req.file);
-
   let data = new FormData();
   data.append("key", "e0f70b04483970cd5bec8a44e8faaf14");
   data.append("image", req.file.buffer.toString("base64"));
-
-  console.log();
 
   axios({
     method: "post",
     url: "https://api.imgbb.com/1/upload",
     data: data,
   }).then((response) => {
+    // res.send(response.data.data.url);
     db.collection("paslon")
       .insertOne({
         no_paslon: noPaslon,
@@ -136,7 +115,7 @@ app.post("/api/paslon", upload.single("file"), (req, res) => {
         calon_ketua: ketua,
         calon_wakil: wakil,
         proker: proker,
-        fotonya: response.data.image.url,
+        fotonya: response.data.data.url,
       })
       .then((result) => {
         res.status(200).json({
@@ -148,6 +127,7 @@ app.post("/api/paslon", upload.single("file"), (req, res) => {
           message: "Gagal menambahkan paslon",
         });
       });
+    // console.log(response);
   });
 });
 
