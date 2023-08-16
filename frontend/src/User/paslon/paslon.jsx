@@ -1,5 +1,3 @@
-import sampleImage from "../../assets/IMG-20220723-WA0013.jpg";
-
 export default function Paslon({
   popUpS,
   selectMisi,
