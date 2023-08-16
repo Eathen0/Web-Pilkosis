@@ -1,5 +1,4 @@
 import axios from "axios";
-import sampleImage from "../../assets/IMG-20220723-WA0013.jpg";
 import { useEffect, useState } from "react";
 
 export default function Paslon({}) {
