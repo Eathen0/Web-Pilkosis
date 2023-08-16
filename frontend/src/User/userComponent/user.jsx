@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Paslon from "../paslon/paslon";
 import Feedback from "../Feedback/Feedback";
 import About from "../About/about";
-import PopUp from "../Window-popUp/popUp";
 import SlideBar from "../../slidebar";
 import { useNavigate } from "react-router-dom";
 
