@@ -23,9 +23,7 @@ export default function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("login");
-    if (token) {
-      navigate("/app");
-    }
+
     if (token === null) {
       navigate("/login");
     }
@@ -34,7 +32,7 @@ export default function App() {
 
   return (
     <>
-      <LoginPage />
+      <User />
     </>
   );
 }

@@ -2,15 +2,25 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import logoSmk from "./login-aset/logo-smk.png";
 import logoOsis from "./login-aset/logo-osis.png";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   // const [respon, setRespon] = useState();
 
+  const navigate = useNavigate();
   // useEffect(() => {
   //   console.log("Tes");
   // }, [respon]);
+
+  const token = localStorage.getItem("login");
+  useEffect(() => {
+    if (token) {
+      // window.location.href = "/";
+      navigate("/");
+    }
+  });
 
   const login = () => {
     axios({
