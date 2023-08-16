@@ -19,7 +19,7 @@ const client = new MongoClient(url, {
   useUnifiedTopology: true,
 });
 
-app.use(cors())
+app.use(cors());
 
 const upload = multer({});
 // console.log(getJam());
@@ -73,6 +73,7 @@ app.get("/api/login", (req, res) => {
 
           nama: data.nama,
           username: data.username,
+          password: data.password,
           status: data.status,
           hak: data.hak,
           pilihan: data.pilihan,
@@ -188,7 +189,7 @@ app.get("/api/paslon/:no_paslon", (req, res) => {
       });
     });
 });
-app.post("/api/vote", (req, res) => {
+app.put("/api/vote", (req, res) => {
   const username = req.query.username;
   const pilihan = req.query.pilihan;
   const password = req.query.password;
