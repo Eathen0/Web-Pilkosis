@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import multer from "multer";
 import axios from "axios";
 import FormData from "form-data";
+import cors from "cors";
 
 // import Time from "./Time/time.js";
 
@@ -17,6 +18,8 @@ const client = new MongoClient(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+app.use(cors())
 
 const upload = multer({});
 // console.log(getJam());
