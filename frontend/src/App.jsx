@@ -26,6 +26,9 @@ export default function App() {
     if (token) {
       navigate("/app");
     }
+    if (token === null) {
+      navigate("/login");
+    }
     // console.log(token);
   }, []);
 

@@ -15,7 +15,7 @@ export default function LoginPage({ click }) {
   const login = () => {
     axios({
       method: "GET",
-      url: "http://localhost:8080/login",
+      url: "http://localhost:8080/api/login",
       params: {
         username,
         password,
