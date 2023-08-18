@@ -49,10 +49,11 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/login", (req, res) => {
-  const username = req.query.username.toString();
+  const username = req.query.username;
   const paswd = req.query.password;
 
   let statusLogin = false;
+  console.log(username, paswd);
 
   // console.log(username, paswd);
 
@@ -63,7 +64,7 @@ app.get("/api/login", (req, res) => {
     })
     .then((result) => {
       // console.log(result.nama);
-
+      // console.log(result);
       const data = result;
 
       if (data) {
