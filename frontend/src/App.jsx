@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  redirect,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 
 import LoginPage from "./login-page/login";
 import User from "./User/userComponent/user";
@@ -27,12 +21,12 @@ export default function App() {
     if (token === null) {
       navigate("/login");
     }
+    if (token) {
+      navigate("/app");
+    }
+
     // console.log(token);
   }, []);
 
-  return (
-    <>
-      <User />
-    </>
-  );
+  return;
 }
