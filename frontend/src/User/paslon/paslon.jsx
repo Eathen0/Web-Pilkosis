@@ -7,7 +7,7 @@ export default function Paslon({}) {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://good-teal-gazelle-garb.cyclic.cloud/api/login",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
       params: {
         username: JSON.parse(localStorage.getItem("login")).username,
         password: JSON.parse(localStorage.getItem("login")).password,
@@ -23,7 +23,7 @@ export default function Paslon({}) {
 
     axios({
       method: "get",
-      url: "https://good-teal-gazelle-garb.cyclic.cloud/api/paslon",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
     }).then((res) => {
       setPaslon(res.data);
       // console.log(res.data);
@@ -33,7 +33,7 @@ export default function Paslon({}) {
   const vote = (id) => {
     axios({
       method: "put",
-      url: "https://good-teal-gazelle-garb.cyclic.cloud/api/vote",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/vote",
       params: {
         pilihan: id,
         username: JSON.parse(localStorage.getItem("login")).username,

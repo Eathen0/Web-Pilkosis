@@ -25,7 +25,7 @@ export default function LoginPage({ click }) {
   const login = () => {
     axios({
       method: "GET",
-      url: "https://good-teal-gazelle-garb.cyclic.cloud/api/login",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
       params: {
         username,
         password,
