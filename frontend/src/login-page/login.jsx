@@ -25,7 +25,7 @@ export default function LoginPage({ click }) {
   const login = () => {
     axios({
       method: "GET",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login/",
       params: {
         username,
         password,
@@ -39,7 +39,7 @@ export default function LoginPage({ click }) {
         window.location.reload();
       })
       .catch((err) => {
-        console.log("Login error");
+        console.log(err);
       });
   };
 

@@ -5,6 +5,8 @@ import Feedback from "../Feedback/Feedback";
 import About from "../About/about";
 import SlideBar from "../../slidebar";
 import { useNavigate } from "react-router-dom";
+import { ContextData, ContextLogin } from "../../main";
+import axios from "axios";
 
 export default function User() {
   const navigate = useNavigate();
@@ -17,22 +19,45 @@ export default function User() {
   });
 
   const [SlideBarHide, setSlideBarHide] = useState(false);
-
   const [showPopUp, setShowPopUp] = useState(false);
-
   const [page, setPage] = useState(1);
-
   const [misiSelect, setMisiSelect] = useState(null);
   const [prokerSelect, setProkerSelect] = useState(null);
+  const [paslon, setPaslon] = useState();
+  const [dataLogin, setDataLogin] = useState();
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
+    }).then((res) => {
+      setPaslon(res.data);
+      // console.log(res.data);
+    });
+    axios({
+      method: "get",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
+      params: {
+        username: JSON.parse(localStorage.getItem("login")).username,
+        password: JSON.parse(localStorage.getItem("login")).password,
+      },
+    }).then((res) => {
+      setDataLogin(res.data);
+    });
+  }, []);
 
   function SlidePage({ id }) {
     const userPage = {
       1: (
-        <Paslon
-          popUpS={setShowPopUp}
-          selectMisi={setMisiSelect}
-          selectProker={setProkerSelect}
-        />
+        <ContextData.Provider value={paslon}>
+          <ContextLogin.Provider value={dataLogin}>
+            <Paslon
+              popUpS={setShowPopUp}
+              selectMisi={setMisiSelect}
+              selectProker={setProkerSelect}
+            />
+          </ContextLogin.Provider>
+        </ContextData.Provider>
       ),
       2: <About />,
       3: <Feedback />,
