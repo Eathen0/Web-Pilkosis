@@ -49,8 +49,9 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/login", (req, res) => {
-  const username = req.query.username;
-  const paswd = req.query.password;
+  console.log("tes");
+  const username = req.query.username.toString();
+  const paswd = req.query.password.toString();
 
   let statusLogin = false;
   console.log(username, paswd);
