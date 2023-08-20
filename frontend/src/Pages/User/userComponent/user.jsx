@@ -38,7 +38,8 @@ export default function User() {
   function Logout() {
     localStorage.removeItem("login")
     navigate("/login");
-    return < ></>
+    console.clear()
+    return <></>
   }
 
   return (
@@ -127,7 +128,7 @@ export default function User() {
           page == 1 ? (
             <ContextData.Provider value={paslon}>
               <ContextLogin.Provider value={dataLogin}>
-                <Paslon />
+                <Paslon isAdminPage={false} />
               </ContextLogin.Provider>
             </ContextData.Provider>
           ) :

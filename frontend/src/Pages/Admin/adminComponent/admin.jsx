@@ -10,10 +10,8 @@ import EditPaslon from "../editPaslon/editPaslon"
 
 export default function Admin() {
     const navigate = useNavigate()
-
     const [paslon, setPaslon] = useState();
     const [dataLogin, setDataLogin] = useState();
-
     useEffect(() => {
         axios({
             method: "get",
@@ -36,10 +34,7 @@ export default function Admin() {
     
     const [page, setPage] = useState(1)
     const [SlideBarHide, setSlideBarHide] = useState(false)
-    const [isEdit, setIsEdit] = useState(false)
-    const [editORtamnah, setEditORtambah] = useState("")
-    const [sDetail, setSDetail] = useState(false)
-    const [paslonSelect, setPaslonSelect] = useState()
+
 
     return (
         < >
@@ -66,7 +61,7 @@ export default function Admin() {
                     page == 1 ? (
                         <ContextData.Provider value={paslon}>
                             <ContextLogin.Provider value={dataLogin}>
-                                <Paslon />
+                                <Paslon isAdminPage={true} />
                             </ContextLogin.Provider>
                         </ContextData.Provider>
                     ) :
