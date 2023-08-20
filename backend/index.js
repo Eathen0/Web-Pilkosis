@@ -42,9 +42,6 @@ const koneksi = mysql.createConnection({
 // KONEKSI KE DATABASE MYSQL
 koneksi.connect();
 
-app.use(cors());
-// app.use("/api", );
-
 app.get("/", (req, res) => {
   res.json({
     message: "KENAPA NGAB?",
@@ -185,34 +182,12 @@ app.post("/vote", (req, res) => {
   );
 });
 
-// app.get("/paslon", (req, res) => {
-//   koneksi.query("SELECT * FROM `paslonnya`", (err, result, field) => {
-//     if (result) {
-//       res.status(200).json(result);
-//     }
-//   });
-// });
-
 app.get("/paslon", (req, res) => {
-  // console.log(req.headers.host);
-
-  const no_paslon = req.params.no_paslon;
-  koneksi.query(
-    `SELECT * FROM paslonnya`,
-    (err, result, field) => {
-      if (result) {
-        res.status(200).json({
-          data: result,
-          gambar: `http://${req.headers.host}/picture/${result[0].nama_paslon}`,
-        });
-      }
-      if (err) {
-        res.status(404).json({
-          status: "Paslon tidak ditemukan",
-        });
-      }
+  koneksi.query("SELECT * FROM `paslonnya`", (err, result, field) => {
+    if (result) {
+      res.status(200).json(result);
     }
-  );
+  });
 });
 
 // app.post("/calonketua", upload.single("fotoketua"), (req, res) => {
