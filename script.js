@@ -1,23 +1,11 @@
-const item = [
-    {
-        item1 : {
-            title : "daftar paslon",
-            logo : "paslon",
-            func : "func",
-            param : "param"
-        }
-    },
+const arrayBiasa = [1, 2, 3, 4, 5];
 
-    {
-        item2 : {
-            title : "daftar paslon",
-            logo : "paslon",
-            func : "func",
-            param : "param"
-        }
-    }
-]
+// Menggunakan metode map untuk mengubah array menjadi array objek
+const arrayObjek = arrayBiasa.map((elemen) => {
+    return {
+        nilai: elemen,
+        kuadrat: elemen * elemen
+    };
+});
 
-item.forEach((e) => {
-    console.log(e);
-})
+console.log(arrayObjek);
