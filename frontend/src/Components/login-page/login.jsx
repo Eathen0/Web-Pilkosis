@@ -17,7 +17,6 @@ export default function LoginPage({ click }) {
   const token = localStorage.getItem("login");
   useEffect(() => {
     if (token) {
-      // window.location.href = "/";
       navigate("/");
     }
   });
@@ -34,7 +33,6 @@ export default function LoginPage({ click }) {
       .then((res) => {
         // setRespon(res.data);
         localStorage.setItem("login", JSON.stringify(res.data));
-
         console.log("Berhasil");
         window.location.reload();
       })

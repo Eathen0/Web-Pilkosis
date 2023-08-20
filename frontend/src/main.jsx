@@ -12,6 +12,8 @@ import "./index.css";
 import User from "./Pages/User/userComponent/user";
 import Admin from "./Pages/Admin/adminComponent/admin";
 import LoginPage from "./Components/login-page/login";
+import UserAuth from "./authentication/userAuth";
+import AdminAuth from "./authentication/adminAuth";
 
 const data = { tes: "jfd" };
 
@@ -26,7 +28,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/app" element={
             <ContextData.Provider value={data}>
               <ContextLogin.Provider value={data}>
-                <User />
+                <UserAuth>
+                  <User />
+                </UserAuth>
               </ContextLogin.Provider>
             </ContextData.Provider>
           }
@@ -34,7 +38,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/admin" element={
             <ContextData.Provider value={data}>
               <ContextLogin.Provider value={data}>
-                <Admin />
+                <AdminAuth>
+                  <Admin />
+                </AdminAuth>
               </ContextLogin.Provider>
             </ContextData.Provider>
         } />
