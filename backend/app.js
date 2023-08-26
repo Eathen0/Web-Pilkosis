@@ -8,7 +8,7 @@ import multer from "multer";
 
 import Time from "./Time/time.js";
 
-const url = "mongodb://127.0.0.1:27017";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = 8080 || process.env.PORT;
@@ -144,17 +144,16 @@ app.post("/api/paslon", upload.single("foto"), (req, res) => {
 
 app.get("/api/picture/:paslon", (req, res) => {
   const paslon = req.params.paslon;
-  db.collection("paslon").findOne({
-    nama_paslon: paslon
-  })
-  .then((result) => {
-    if (result) {
-      res.sendFile(`tmp/uploads/${result.fotonya}`, { root: __dirname });
-    }
-  })
-  .catch((err) => {
-
-  })
+  db.collection("paslon")
+    .findOne({
+      nama_paslon: paslon,
+    })
+    .then((result) => {
+      if (result) {
+        res.sendFile(`tmp/uploads/${result.fotonya}`, { root: __dirname });
+      }
+    })
+    .catch((err) => {});
 });
 
 app.get("/api/paslon", (req, res) => {
@@ -194,7 +193,7 @@ app.post("/api/vote", (req, res) => {
   const username = req.query.username;
   const pilihan = req.query.pilihan;
   const password = req.query.password;
-  
+
   db.collection("user")
     .findOne({
       username: username,
@@ -242,7 +241,10 @@ app.post("/api/vote", (req, res) => {
           message: "Anda sudah melakukan vote",
         });
       }
-    }).catch((err) => {console.log(err);});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
