@@ -8,7 +8,7 @@ import multer from "multer";
 
 import Time from "./Time/time.js";
 
-const url = process.env.MONGO_URI || "mongodb://localhost:27017";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = 8080 || process.env.PORT;
