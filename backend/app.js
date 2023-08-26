@@ -148,10 +148,10 @@ app.get("/api/paslon", (req, res) => {
       });
     });
 });
-app.delete("/api/paslon/:no_paslon", (req, res) => {
+app.delete("/api/paslon/:nama_paslon", (req, res) => {
   db.collection("paslon")
     .deleteOne({
-      no_paslon: parseInt(req.params.no_paslon),
+      no_paslon: req.params.nama_paslon,
     })
     .then((result) => {
       res.status(200).json({

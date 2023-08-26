@@ -4,6 +4,8 @@ import { ContextData, ContextLogin } from "../../main";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
 export default function Paslon({ isAdminPage }) {
   const navigate = useNavigate();
   const goToTambahPaslon = () => {
@@ -45,7 +47,7 @@ export default function Paslon({ isAdminPage }) {
   const vote = (id) => {
     axios({
       method: "put",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/vote",
+      url: `${url}/api/vote`,
       params: {
         pilihan: id,
         username: JSON.parse(localStorage.getItem("login")).username,
@@ -59,7 +61,7 @@ export default function Paslon({ isAdminPage }) {
   const delete_paslon = (no_paslon) => {
     axios({
       method: "delete",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
+      url: `${url}/api/paslon`,
       params: {
         no_paslon: no_paslon,
       },
@@ -129,7 +131,9 @@ export default function Paslon({ isAdminPage }) {
                 ) : null}
                 {isAdminPage ? (
                   <button
-                    onClick={delete_paslon(items.no_paslon)}
+                    onClick={() => {
+                      delete_paslon(items.no_paslon);
+                    }}
                     className="h-8 w-40 py-1 text-center bg-red-500 rounded-md"
                   >
                     DELETE

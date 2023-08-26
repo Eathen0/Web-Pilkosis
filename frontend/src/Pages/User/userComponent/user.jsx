@@ -8,6 +8,8 @@ import { ContextData, ContextLogin } from "../../../main";
 import { Logout } from "../../../App";
 import axios from "axios";
 
+const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
 export default function User() {
   const [SlideBarHide, setSlideBarHide] = useState(false);
   const [page, setPage] = useState(1);
@@ -16,13 +18,13 @@ export default function User() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
+      url: `${url}/api/paslon`,
     }).then((res) => {
       setPaslon(res.data);
     });
     axios({
       method: "get",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
+      url: `${url}}/api/login`,
       params: {
         username: JSON.parse(localStorage.getItem("login")).username,
         password: JSON.parse(localStorage.getItem("login")).password,
