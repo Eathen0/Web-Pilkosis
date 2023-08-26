@@ -69,7 +69,7 @@ export default function LoginPage({ click }) {
 
   return (
     <div className={`relative flex items-center w-full h-screen flex-col justify-start gap-0 sm:gap-4 sm:justify-center`}>
-      <img className="-z-10 absolute top-0 left-0 right-0 bottom-0 object-cover" src={loginBg} />
+      <img className="-z-10 w-full h-full absolute top-0 left-0 right-0 bottom-0 object-cover" src={loginBg} />
       <div className="flex items-center m-4 gap-10 justify-center">
         <img
           src={logoSmk}

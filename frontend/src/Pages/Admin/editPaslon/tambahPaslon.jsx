@@ -124,7 +124,7 @@ function TambahPaslon() {
                     <label>Proker</label>
                     <InputText handleBlur={setDataInput} name={"proker"} type={"text"} area={true} />
                 </div>
-                <button className={`${loadingUpload ? "cursor-not-allowed bg-gray-600" : "cursor-pointer bg-gray-300 hover:bg-gray-400"} rounded-xl h-8 transition-color`} onClick={(e) => {e.preventDefault(); !loadingUpload && handleClick}}>Tambah Paslon</button>
+                <button className={`${loadingUpload ? "cursor-not-allowed bg-gray-600" : "cursor-pointer bg-gray-300 hover:bg-gray-400"} rounded-xl h-8 transition-color`} onClick={(e) => {e.preventDefault(); !loadingUpload && handleClick()}}>Tambah Paslon</button>
             </form>
             <ToastContainer position="top-center" />
         </div>
