@@ -32,7 +32,7 @@ export default function LoginPage({ click }) {
     const id = toast.loading("Please wait...")
     axios({
       method: "GET",
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login/",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
       params: {
         username,
         password,

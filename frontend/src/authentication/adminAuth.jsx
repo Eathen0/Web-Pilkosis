@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom"
 export default function AdminAuth(props) {
     const token = localStorage.getItem("login")
     if (token) {
-        if (JSON.parse(token).hak == "adminr") {
+        if (JSON.parse(token).hak == "admin") {
             return props.children
         } else {
             return <Navigate to="/" />
