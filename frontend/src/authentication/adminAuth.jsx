@@ -6,7 +6,7 @@ export default function AdminAuth(props) {
         if (JSON.parse(token).hak == "adminr") {
             return props.children
         } else {
-            return <Navigate to="/error" />
+            return <Navigate to="/" />
         }
     } else {
         return <Navigate to={"/login"} />

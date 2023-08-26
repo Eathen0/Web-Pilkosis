@@ -6,7 +6,7 @@ export default function UserAuth(props) {
         if (JSON.parse(token).hak == "user") {
             return props.children
         } else {
-            return <Navigate to={"/error"} />
+            return <Navigate to={"/"} />
         }
     } else {
         return <Navigate to={"/login"} />

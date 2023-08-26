@@ -1,6 +1,6 @@
 export default function SlideBar(props) {
    return (
-        <div className={`${props.isOn ? "md:w-64 md:h-screen h-auto" : "md:w-[3.9rem] h-16"} overflow-hidden gap-12 shadow-[5px_0_10px_gray] font-sans text-white transition-[width_height] ease-in-out duration-500 w-full md:h-screen bg-gradient-to-br to-blue-600 from-10% from-[#40128B] p-4 fixed flex flex-col`}>
+        <div className={`${props.isOn ? "md:w-64 md:h-screen h-auto" : "md:w-[3.9rem] h-16"} z-50 overflow-hidden gap-12 shadow-[1px_0_10px_0px_black] font-sans text-white transition-[width_height] ease-in-out duration-500 w-full md:h-screen bg-gradient-to-br to-blue-600 from-10% from-[#40128B] p-4 fixed flex flex-col`}>
             <div className="flex flex-col items-stretch gap-2">
                 {props.isOn ?
                     <svg className={`${props.isOn ? "rotate-0" : "-rotate-180"} inline-block transition-transform duration-500 cursor-pointer`} onClick={() => props.setIsOn(e => !e)} version="1.1" id="Layer_1" fill="white" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 122.878 122.88" enableBackground="new 0 0 122.878 122.88" xmlSpace="preserve">

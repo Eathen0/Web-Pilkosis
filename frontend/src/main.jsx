@@ -5,8 +5,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  redirect,
-  useNavigate,
 } from "react-router-dom";
 import "./index.css";
 import User from "./Pages/User/userComponent/user";
@@ -15,6 +13,8 @@ import LoginPage from "./Components/login-page/login";
 import UserAuth from "./authentication/userAuth";
 import AdminAuth from "./authentication/adminAuth";
 import ErrorPage from "./Components/error/error";
+import TambahPaslon from "./Pages/Admin/editPaslon/tambahPaslon";
+import Test from "./Components/myTestingComponent/test";
 
 const data = { tes: "jfd" };
 
@@ -27,24 +27,29 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/app" element={
+          <UserAuth>
             <ContextData.Provider value={data}>
               <ContextLogin.Provider value={data}>
-                <UserAuth>
-                  <User />
-                </UserAuth>
+                <User />
               </ContextLogin.Provider>
             </ContextData.Provider>
-          }
-        />
-        <Route path="/admin" element={
-            <ContextData.Provider value={data}>
-              <ContextLogin.Provider value={data}>
+          </UserAuth>
+        }/>
+        <Route path="/admin">
+          <Route index element={
+            <AdminAuth>
+              <ContextData.Provider value={data}>
+                <ContextLogin.Provider value={data}>
                   <Admin />
-              </ContextLogin.Provider>
-            </ContextData.Provider>
-        } />
+                </ContextLogin.Provider>
+              </ContextData.Provider>
+            </AdminAuth>
+          }/>
+          <Route path="tambahpaslon" element={<AdminAuth><TambahPaslon /></AdminAuth>} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/test" element={<Test />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
   </>

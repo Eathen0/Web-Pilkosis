@@ -1,5 +1,9 @@
 import logoSmk from "./login-aset/logo-smk.png";
 import logoOsis from "./login-aset/logo-osis.png";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +25,10 @@ export default function LoginPage({ click }) {
     }
   });
 
+  const [loadingLogin, setLoadingLogin] = useState(false)
   const login = () => {
+    setLoadingLogin(true)
+    const id = toast.loading("Please wait...")
     axios({
       method: "GET",
       url: "https://dull-plum-deer-boot.cyclic.cloud/api/login/",
@@ -31,14 +38,32 @@ export default function LoginPage({ click }) {
       },
     })
       .then((res) => {
-        // setRespon(res.data);
         localStorage.setItem("login", JSON.stringify(res.data));
-        console.log("Berhasil");
-        window.location.reload();
+        toast.update(id, {
+          render: 'Anda berhasil login',
+          type: "success",
+          position: "top-center",
+          autoClose: 2000,
+          draggable: true,
+          theme: "light",
+          isLoading: false 
+        });
+        setTimeout(() => window.location.reload(), 500)
       })
       .catch((err) => {
-        console.log(err);
-      });
+        toast.update(id, {
+          render: 'password atau username salah',
+          type: "error",
+          position: "top-center",
+          autoClose: 2000,
+          draggable: true,
+          theme: "light",
+          isLoading: false
+          });
+      })
+      .finally(() => {
+        setLoadingLogin(false)
+      })
   };
 
   return (
@@ -84,15 +109,27 @@ export default function LoginPage({ click }) {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-cyan-500 transition text-white font-bold py-2 px-4 rounded-lg"
+              className={`${loadingLogin ? "bg-blue-700 cursor-not-allowed" : "cursor-pointer bg-blue-500 hover:bg-cyan-500"} transition text-white font-bold py-2 px-4 rounded-lg`}
               type="button"
-              onClick={login}
+              onClick={() => {!loadingLogin && login()}}
             >
               Login
             </button>
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

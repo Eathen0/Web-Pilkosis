@@ -4,7 +4,7 @@ export default function About() {
     const cartsMany = [...Array(6)]
 
     return (
-        <div className='pt-10'>
+        <div className='pt-20'>
             <h1 className='text-3xl text-center'>Website Contributors</h1>
             <div className="flex flex-wrap gap-10 justify-center items-center w-full h-auto px-28 pb-10 pt-10">
                 {cartsMany.map((el, ix) => {
