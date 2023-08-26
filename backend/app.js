@@ -135,28 +135,6 @@ app.post("/api/paslon", upload.single("foto"), (req, res) => {
   });
 });
 
-// db.collection("paslon")
-//   .insertOne({
-//     no_paslon: noPaslon,
-//     nama_paslon: namaPaslon,
-//     visi: visi,
-//     misi: misi,
-//     calon_ketua: ketua,
-//     calon_wakil: wakil,
-//     proker: proker,
-//     fotonya: namaFile,
-//   })
-//   .then((result) => {
-//     res.status(200).json({
-//       message: "Berhasil menambahkan paslon",
-//     });
-//   })
-//   .catch((err) => {
-//     res.status(400).json({
-//       message: "Gagal menambahkan paslon",
-//     });
-//   });
-// });
 app.get("/api/paslon", (req, res) => {
   db.collection("paslon")
     .find()
@@ -167,6 +145,17 @@ app.get("/api/paslon", (req, res) => {
     .catch((err) => {
       res.status(400).json({
         message: "Gagal mendapatkan data paslon",
+      });
+    });
+});
+app.delete("/api/paslon/:no_paslon", (req, res) => {
+  db.collection("paslon")
+    .deleteOne({
+      no_paslon: parseInt(req.params.no_paslon),
+    })
+    .then((result) => {
+      res.status(200).json({
+        message: "Berhasil menghapus data paslon",
       });
     });
 });
@@ -256,6 +245,7 @@ app.get("/api/pemilih", (req, res) => {
       });
     });
 });
+
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
 });
