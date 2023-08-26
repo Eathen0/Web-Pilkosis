@@ -128,7 +128,10 @@ export default function Paslon({ isAdminPage }) {
                   </button>
                 ) : null}
                 {isAdminPage ? (
-                  <button className="h-8 w-40 py-1 text-center bg-red-500 rounded-md">
+                  <button
+                    onClick={delete_paslon(items.no_paslon)}
+                    className="h-8 w-40 py-1 text-center bg-red-500 rounded-md"
+                  >
                     DELETE
                   </button>
                 ) : null}
