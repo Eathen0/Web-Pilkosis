@@ -4,18 +4,16 @@ import Paslon from "../../../Components/paslon/paslon";
 import Feedback from "../Feedback/Feedback";
 import SlideBar from "../../../Components/slide-bar/slidebar";
 import About from "../About/about";
-import { useNavigate } from "react-router-dom";
 import { ContextData, ContextLogin } from "../../../main";
+import { Logout } from "../../../App";
 import axios from "axios";
 
 export default function User() {
-  const navigate = useNavigate();
 
   const [SlideBarHide, setSlideBarHide] = useState(false);
   const [page, setPage] = useState(1);
   const [paslon, setPaslon] = useState();
   const [dataLogin, setDataLogin] = useState();
-
   useEffect(() => {
     axios({
       method: "get",
@@ -34,12 +32,6 @@ export default function User() {
       setDataLogin(res.data);
     });
   }, []);
-
-  function Logout() {
-    localStorage.removeItem("login")
-    navigate("/login");
-    return < ></>
-  }
 
   return (
     <>
@@ -118,16 +110,12 @@ export default function User() {
         isOn={SlideBarHide}
         switchPage={setPage}
       />
-      <div
-        className={`transition-[padding] ease-in-out pl-0 duration-500 md:pt-0 ${
-          SlideBarHide ? "md:pl-64 pt-64" : "md:pl-[3.9rem] pt-18"
-        }`}
-      >
+      <div className={`transition-[padding] md:pt-0 pt-16 ease-in-out pl-0 duration-500 ${SlideBarHide ? "md:pl-64 pt-96" : "md:pl-[3.9rem]"}`}>
         {
           page == 1 ? (
             <ContextData.Provider value={paslon}>
               <ContextLogin.Provider value={dataLogin}>
-                <Paslon />
+                <Paslon isAdminPage={false} />
               </ContextLogin.Provider>
             </ContextData.Provider>
           ) :

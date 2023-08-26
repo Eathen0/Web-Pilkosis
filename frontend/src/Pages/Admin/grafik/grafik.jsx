@@ -8,12 +8,12 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2'
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { ContextData } from "../../../main";
   
 export default function Grafik() {
     const arrayTotal = useContext(ContextData).map((el) => el.total);
-    const namaPaslon = useContext(ContextData).map((el) => el.nama_paslon)
+    const namaPaslon = useContext(ContextData).map((el) => el.nama_paslon);
 
     ChartJS.register (
         CategoryScale,
@@ -24,7 +24,7 @@ export default function Grafik() {
         Legend
     );
     const options = {
-        animation : false,
+        animation : true,
         responsive : true,
         plugins: {
             legend: {
@@ -44,7 +44,7 @@ export default function Grafik() {
             {
                 label: 'Jumlah vote',
                 data: labels.map((e, i) => value[i]),
-                backgroundColor: '#475a7b',
+                backgroundColor: 'gray',
             }
         ],
     };
