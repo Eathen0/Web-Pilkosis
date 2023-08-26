@@ -9,7 +9,6 @@ import { Logout } from "../../../App";
 import axios from "axios";
 
 export default function User() {
-
   const [SlideBarHide, setSlideBarHide] = useState(false);
   const [page, setPage] = useState(1);
   const [paslon, setPaslon] = useState();
@@ -26,7 +25,7 @@ export default function User() {
       url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
       params: {
         username: JSON.parse(localStorage.getItem("login")).username,
-        password: JSON.parse(localStorage.getItem("login")).password,
+        // password: JSON.parse(localStorage.getItem("login")).password,
       },
     }).then((res) => {
       setDataLogin(res.data);
@@ -110,19 +109,24 @@ export default function User() {
         isOn={SlideBarHide}
         switchPage={setPage}
       />
-      <div className={`transition-[padding] md:pt-0 pt-16 ease-in-out pl-0 duration-500 ${SlideBarHide ? "md:pl-64 pt-96" : "md:pl-[3.9rem]"}`}>
-        {
-          page == 1 ? (
-            <ContextData.Provider value={paslon}>
-              <ContextLogin.Provider value={dataLogin}>
-                <Paslon isAdminPage={false} />
-              </ContextLogin.Provider>
-            </ContextData.Provider>
-          ) :
-          page == 2 ? <About /> :
-          page == 3 ? <Feedback /> :
+      <div
+        className={`transition-[padding] md:pt-0 pt-16 ease-in-out pl-0 duration-500 ${
+          SlideBarHide ? "md:pl-64 pt-96" : "md:pl-[3.9rem]"
+        }`}
+      >
+        {page == 1 ? (
+          <ContextData.Provider value={paslon}>
+            <ContextLogin.Provider value={dataLogin}>
+              <Paslon isAdminPage={false} />
+            </ContextLogin.Provider>
+          </ContextData.Provider>
+        ) : page == 2 ? (
+          <About />
+        ) : page == 3 ? (
+          <Feedback />
+        ) : (
           page == 4 && <Logout />
-        }
+        )}
       </div>
     </>
   );
