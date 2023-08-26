@@ -1,43 +1,27 @@
 import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
 import { MongoClient } from "mongodb";
-import { fileURLToPath } from "url";
-import path, { parse } from "path";
 import multer from "multer";
+import axios from "axios";
+import FormData from "form-data";
+import cors from "cors";
 
-import Time from "./Time/time.js";
+// import Time from "./Time/time.js";
 
+const api_keyUpGambar =
+  process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 const client = new MongoClient(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+app.use(cors());
 
-const storage = multer.diskStorage({
-  // MENENTUKAN TEMPAT UPLOAD
-  destination: function (req, file, cb) {
-    cb(null, "tmp/uploads");
-  },
-  filename: function (req, file, cb) {
-    // console.log(req.body);
-    const namaFile = `${req.body.nama_paslon}_${Time()}.${
-      file.mimetype.split("/")[1]
-    }`;
-
-    cb(null, namaFile);
-    // console.log(req.body);
-  },
-});
-const upload = multer({ storage: storage });
-
+const upload = multer({});
 // console.log(getJam());
 
 client.connect((err, client) => {
@@ -48,8 +32,7 @@ client.connect((err, client) => {
   }
 });
 
-app.use(bodyParser.json());
-app.use(cors());
+// console.log(process.env);
 
 const db = client.db(dbName);
 
@@ -66,7 +49,7 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/login", (req, res) => {
-  const username = req.query.username;
+  const username = req.query.username.toString();
   const paswd = req.query.password;
 
   let statusLogin = false;
@@ -79,7 +62,7 @@ app.get("/api/login", (req, res) => {
       password: paswd,
     })
     .then((result) => {
-      // console.log(result);
+      // console.log(result.nama);
 
       const data = result;
 
@@ -90,6 +73,7 @@ app.get("/api/login", (req, res) => {
 
           nama: data.nama,
           username: data.username,
+          password: data.password,
           status: data.status,
           hak: data.hak,
           pilihan: data.pilihan,
@@ -115,47 +99,64 @@ app.post("/api/paslon", upload.single("foto"), (req, res) => {
   const ketua = req.body.calon_ketua;
   const proker = req.body.proker;
   const wakil = req.body.calon_wakil;
-  let namaFile = req.file.filename;
 
-  console.log(req.body);
+  let data = new FormData();
+  data.append("key", "e0f70b04483970cd5bec8a44e8faaf14");
+  data.append("image", req.file.buffer.toString("base64"));
 
-  db.collection("paslon")
-    .insertOne({
-      no_paslon: noPaslon,
-      nama_paslon: namaPaslon,
-      visi: visi,
-      misi: misi,
-      calon_ketua: ketua,
-      calon_wakil: wakil,
-      proker: proker,
-      fotonya: namaFile,
-    })
-    .then((result) => {
-      res.status(200).json({
-        message: "Berhasil menambahkan paslon",
+  axios({
+    method: "post",
+    url: "https://api.imgbb.com/1/upload",
+    data: data,
+  }).then((response) => {
+    // res.send(response.data.data.url);
+    db.collection("paslon")
+      .insertOne({
+        no_paslon: noPaslon,
+        nama_paslon: namaPaslon,
+        visi: visi,
+        misi: misi,
+        calon_ketua: ketua,
+        calon_wakil: wakil,
+        proker: proker,
+        fotonya: response.data.data.url,
+      })
+      .then((result) => {
+        res.status(200).json({
+          message: "Berhasil menambahkan paslon",
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          message: "Gagal menambahkan paslon",
+        });
       });
-    })
-    .catch((err) => {
-      res.status(400).json({
-        message: "Gagal menambahkan paslon",
-      });
-    });
+    // console.log(response);
+  });
 });
 
-app.get("/api/picture/:paslon", (req, res) => {
-  const paslon = req.params.paslon;
-  db.collection("paslon")
-    .findOne({
-      nama_paslon: paslon,
-    })
-    .then((result) => {
-      if (result) {
-        res.sendFile(`tmp/uploads/${result.fotonya}`, { root: __dirname });
-      }
-    })
-    .catch((err) => {});
-});
-
+// db.collection("paslon")
+//   .insertOne({
+//     no_paslon: noPaslon,
+//     nama_paslon: namaPaslon,
+//     visi: visi,
+//     misi: misi,
+//     calon_ketua: ketua,
+//     calon_wakil: wakil,
+//     proker: proker,
+//     fotonya: namaFile,
+//   })
+//   .then((result) => {
+//     res.status(200).json({
+//       message: "Berhasil menambahkan paslon",
+//     });
+//   })
+//   .catch((err) => {
+//     res.status(400).json({
+//       message: "Gagal menambahkan paslon",
+//     });
+//   });
+// });
 app.get("/api/paslon", (req, res) => {
   db.collection("paslon")
     .find()
@@ -169,7 +170,6 @@ app.get("/api/paslon", (req, res) => {
       });
     });
 });
-
 app.get("/api/paslon/:no_paslon", (req, res) => {
   const noPaslon = parseInt(req.params.no_paslon);
 
@@ -189,7 +189,7 @@ app.get("/api/paslon/:no_paslon", (req, res) => {
       });
     });
 });
-app.post("/api/vote", (req, res) => {
+app.put("/api/vote", (req, res) => {
   const username = req.query.username;
   const pilihan = req.query.pilihan;
   const password = req.query.password;
@@ -241,9 +241,19 @@ app.post("/api/vote", (req, res) => {
           message: "Anda sudah melakukan vote",
         });
       }
+    });
+});
+app.get("/api/pemilih", (req, res) => {
+  db.collection("user")
+    .find({ status: 1 })
+    .toArray()
+    .then((result) => {
+      res.status(200).json(result);
     })
     .catch((err) => {
-      console.log(err);
+      res.status(400).json({
+        message: "Gagal mendapatkan data pemilih",
+      });
     });
 });
 app.listen(PORT, () => {
