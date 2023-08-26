@@ -14,7 +14,6 @@ import UserAuth from "./authentication/userAuth";
 import AdminAuth from "./authentication/adminAuth";
 import ErrorPage from "./Components/error/error";
 import TambahPaslon from "./Pages/Admin/editPaslon/tambahPaslon";
-import Test from "./Components/myTestingComponent/test";
 
 const data = { tes: "jfd" };
 
@@ -48,7 +47,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="tambahpaslon" element={<AdminAuth><TambahPaslon /></AdminAuth>} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/test" element={<Test />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
