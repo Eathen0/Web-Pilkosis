@@ -25,7 +25,7 @@ export default function User() {
       url: "https://dull-plum-deer-boot.cyclic.cloud/api/login",
       params: {
         username: JSON.parse(localStorage.getItem("login")).username,
-        // password: JSON.parse(localStorage.getItem("login")).password,
+        password: JSON.parse(localStorage.getItem("login")).password,
       },
     }).then((res) => {
       setDataLogin(res.data);

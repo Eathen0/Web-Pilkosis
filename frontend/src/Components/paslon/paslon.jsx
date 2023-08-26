@@ -5,10 +5,10 @@ import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
 export default function Paslon({ isAdminPage }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const goToTambahPaslon = () => {
-    navigate("/admin/tambahpaslon")
-  }
+    navigate("/admin/tambahpaslon");
+  };
 
   const [paslon, setPaslon] = useState([]);
   const [isVote, setIsVote] = useState();
@@ -56,6 +56,18 @@ export default function Paslon({ isAdminPage }) {
     });
   };
 
+  const delete_paslon = (no_paslon) => {
+    axios({
+      method: "delete",
+      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
+      params: {
+        no_paslon: no_paslon,
+      },
+    }).then((res) => {
+      // console.log(res.data);
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -84,10 +96,16 @@ export default function Paslon({ isAdminPage }) {
           ) : null}
           <div className="text-white flex flex-wrap items-stretch justify-center gap-10 w-full h-screen py-10">
             {paslon.map((items, index) => (
-              <div key={items._id} className={`self-start shadow-[1px_1px_8px_black] rounded-xl bg-gradient-to-br from-blue-600 from-10% to-[#40128B] w-60 ${!isVote & !isAdminPage ?  "h-[25rem]" : "h-auto pt-3 pb-8" } flex flex-col gap-3 items-center justify-center`}>
+              <div
+                key={items._id}
+                className={`self-start shadow-[1px_1px_8px_black] rounded-xl bg-gradient-to-br from-blue-600 from-10% to-[#40128B] w-60 ${
+                  !isVote & !isAdminPage ? "h-[25rem]" : "h-auto pt-3 pb-8"
+                } flex flex-col gap-3 items-center justify-center`}
+              >
                 <img
                   className="rounded-xl w-56 h-56 object-cover"
-                  src={items.fotonya}></img>
+                  src={items.fotonya}
+                ></img>
                 <div className="text-center text-xl font-bold mt-3">
                   {items.nama_paslon}
                 </div>
@@ -109,6 +127,11 @@ export default function Paslon({ isAdminPage }) {
                     VOTE
                   </button>
                 ) : null}
+                {isAdminPage ? (
+                  <button className="h-8 w-40 py-1 text-center bg-red-500 rounded-md">
+                    DELETE
+                  </button>
+                ) : null}
                 <input type="checkbox" id={index} className="modal-toggle" />
                 <div className="modal" data-theme="cupcake">
                   <div className="modal-box text-black">
@@ -123,12 +146,16 @@ export default function Paslon({ isAdminPage }) {
                       </h1>
                       <div className="orangnya mb-10">
                         <p className="font-semibold">
-                          <span className="font-bold inline-block w-28">CALON KETUA</span> : {" "}
-                          {items.calon_ketua}
+                          <span className="font-bold inline-block w-28">
+                            CALON KETUA
+                          </span>{" "}
+                          : {items.calon_ketua}
                         </p>
                         <p className="font-semibold">
-                          <span className="font-bold inline-block w-28">CALON WAKIL</span> : {" "}
-                          {items.calon_wakil}
+                          <span className="font-bold inline-block w-28">
+                            CALON WAKIL
+                          </span>{" "}
+                          : {items.calon_wakil}
                         </p>
                       </div>
                       <h1 className="font-bold text-2xl">VISI</h1>
@@ -162,10 +189,21 @@ export default function Paslon({ isAdminPage }) {
                 <p className="py-4">Terima kasih sudah memberikan suara anda</p>
               </form>
             </dialog>
-            {isAdminPage &&
-              <div onClick={goToTambahPaslon} className="self-center overflow-hidden shadow-[1px_1px_8px_black] rounded-xl bg-gradient-to-br from-blue-600 from-10% to-[#40128B] flex flex-col justify-center items-center cursor-pointer w-60 h-[23rem] relative">
+            {isAdminPage && (
+              <div
+                onClick={goToTambahPaslon}
+                className="self-center overflow-hidden shadow-[1px_1px_8px_black] rounded-xl bg-gradient-to-br from-blue-600 from-10% to-[#40128B] flex flex-col justify-center items-center cursor-pointer w-60 h-[23rem] relative"
+              >
                 <div className="z-10 w-full h-full pb-0 hover:pb-64 hover:opacity-0 opacity-100 overflow-hidden cursor-pointer duration-500 transition-all flex flex-col justify-center items-center bg-gradient-to-br from-blue-600 from-10% to-[#40128B]">
-                  <svg className="fill-white" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                  <svg
+                    className="fill-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="50"
+                    height="50"
+                    viewBox="0 0 50 50"
+                  >
                     <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
                   </svg>
                 </div>
@@ -173,7 +211,7 @@ export default function Paslon({ isAdminPage }) {
                   <h1 className="text-xl">Tambah Paslon</h1>
                 </div>
               </div>
-            }
+            )}
           </div>
         </>
       )}
