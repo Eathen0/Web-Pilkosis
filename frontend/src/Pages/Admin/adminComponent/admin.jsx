@@ -28,7 +28,7 @@ export default function Admin() {
             },
         }).then((res) => {
             setDataLogin(res.data);
-        });
+        }).catch((err) => {})
     }, []);
     
     const [page, setPage] = useState(1)
