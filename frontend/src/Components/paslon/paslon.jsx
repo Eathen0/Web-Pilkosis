@@ -64,7 +64,7 @@ export default function Paslon({ isAdminPage }) {
         no_paslon: no_paslon,
       },
     }).then((res) => {
-      // console.log(res.data);
+      console.log(res.data);
     });
   };
 
