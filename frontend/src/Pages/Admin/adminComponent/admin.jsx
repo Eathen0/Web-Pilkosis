@@ -13,6 +13,9 @@ const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
 export default function Admin() {
   const [paslon, setPaslon] = useState();
   const [dataLogin, setDataLogin] = useState();
+  const [dimulai, setDimulai] = useState();
+  const [berakhir, setBerakhir] = useState();
+
   useEffect(() => {
     axios({
       method: "get",
@@ -122,11 +125,35 @@ export default function Admin() {
         isOn={SlideBarHide}
         switchPage={setPage}
       />
+
       <div
         className={`transition-[padding] md:pt-0 pt-16 ease-in-out pl-0 duration-500 ${
           SlideBarHide ? "md:pl-64 pt-96" : "md:pl-[3.9rem]"
         }`}
       >
+        <div className="flex w-full flex-col items-center">
+          <h1 className="font-bold text-xl">ATUR WAKTU PEMILIHAN</h1>
+          <div className="text-center mt-5">
+            <h1>WAKTU DIMULAI</h1>
+            <input
+              onChange={(e) => console.log(e.target.value)}
+              type="datetime-local"
+              name="waktuPemilihan"
+              id=""
+              className="border border-black p-2"
+            />
+          </div>
+          <div className="text-center mt-5">
+            <h1>WAKTU BERAKHIR</h1>
+            <input
+              type="datetime-local"
+              name="waktuPemilihan"
+              id=""
+              className="border border-black p-2"
+            />
+          </div>
+          <button className="btn bg-blue-500 mt-5">PERBARUI</button>
+        </div>
         {page == 1 ? (
           <ContextData.Provider value={paslon}>
             <ContextLogin.Provider value={dataLogin}>

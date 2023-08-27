@@ -8,6 +8,8 @@ import axios from "axios";
 import InputGambar from "./inputGambar";
 import InputText from "./inputText";
 
+const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
 function TambahPaslon() {
   const navigate = useNavigate();
   const closeWindow = () => {
@@ -48,7 +50,7 @@ function TambahPaslon() {
     formData.append("foto", picture, picture.name);
 
     axios({
-      url: "https://dull-plum-deer-boot.cyclic.cloud/api/paslon",
+      url: `${url}/api/paslon`,
       method: "POST",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },

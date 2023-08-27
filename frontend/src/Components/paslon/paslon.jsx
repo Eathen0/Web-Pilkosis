@@ -58,12 +58,12 @@ export default function Paslon({ isAdminPage }) {
     });
   };
 
-  const delete_paslon = (no_paslon) => {
+  const delete_paslon = (nama_paslon) => {
     axios({
       method: "delete",
       url: `${url}/api/paslon`,
       params: {
-        no_paslon: no_paslon,
+        nama_paslon: nama_paslon,
       },
     }).then((res) => {
       console.log(res.data);
@@ -132,7 +132,7 @@ export default function Paslon({ isAdminPage }) {
                 {isAdminPage ? (
                   <button
                     onClick={() => {
-                      delete_paslon(items.no_paslon);
+                      delete_paslon(items.nama_paslon);
                     }}
                     className="h-8 w-40 py-1 text-center bg-red-500 rounded-md"
                   >

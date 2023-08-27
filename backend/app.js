@@ -148,19 +148,19 @@ app.get("/api/paslon", (req, res) => {
       });
     });
 });
-app.delete("/api/paslon/:nama_paslon", (req, res) => {
+app.delete("/api/paslon/", (req, res) => {
   db.collection("paslon")
-    .deleteOne({
-      no_paslon: req.params.nama_paslon,
+    .findOneAndDelete({
+      nama_paslon: req.query.nama_paslon,
     })
-    .then((result) => {
+    .then((resul) => {
       res.status(200).json({
-        message: "Berhasil menghapus data paslon",
+        message: "Berhasil menghapus paslon",
       });
     });
 });
-app.get("/api/paslon/:no_paslon", (req, res) => {
-  const noPaslon = parseInt(req.params.no_paslon);
+app.get("/api/paslon/:nama_paslon", (req, res) => {
+  const noPaslon = parseInt(req.params.nama_paslon);
 
   // console.log(noPaslon);
 
