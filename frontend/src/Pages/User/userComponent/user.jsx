@@ -8,7 +8,7 @@ import { ContextData, ContextLogin } from "../../../main";
 import { Logout } from "../../../App";
 import axios from "axios";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
 export default function User() {
   const [SlideBarHide, setSlideBarHide] = useState(false);

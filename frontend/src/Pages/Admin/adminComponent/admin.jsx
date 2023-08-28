@@ -8,7 +8,7 @@ import Paslon from "../../../Components/paslon/paslon";
 import { Logout } from "../../../App";
 import ViewFeedBack from "../viewFeedBack/viewFeedBack";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
 export default function Admin() {
   const [paslon, setPaslon] = useState();

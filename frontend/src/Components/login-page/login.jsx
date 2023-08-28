@@ -9,7 +9,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();

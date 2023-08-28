@@ -4,7 +4,7 @@ import { ContextData, ContextLogin } from "../../main";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
 export default function Paslon({ isAdminPage }) {
   const navigate = useNavigate();

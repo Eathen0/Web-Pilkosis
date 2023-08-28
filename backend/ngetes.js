@@ -34,6 +34,8 @@ connection.connect((err) => {
   }
 });
 
+app.use(cors());
+
 app.get("/", (req, res) => {
   res.json({
     message: "PERGI KE /api",
@@ -185,50 +187,33 @@ app.put("/api/vote", (req, res) => {
   const pilihan = req.query.pilihan;
   const password = req.query.password;
 
+  //   console.log(username, pilihan, password);
+
   connection.query(
     `SELECT * FROM user WHERE username = '${username}' AND password = '${password}'`,
     (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({
-          message: "Terjadi kesalahan pada server",
-        });
-      } else {
-        const data = result[0];
+      let resultData = Object.values(JSON.parse(JSON.stringify(result)))[0];
+      //   if (resultData.status == 1) {
+      //     res.sendStatus(403).send("Anda sudah melakukan vote");
+      //   }
 
-        if (data.status === 0) {
-          connection.query(
-            `UPDATE paslon SET total = total + 1 WHERE no_paslon = ${pilihan}`,
-            (err, result) => {
-              if (err) {
-                console.log(err);
-                res.status(400).json({
-                  message: "Gagal melakukan vote",
-                });
-              } else {
-                connection.query(
-                  `UPDATE user SET status = 1, pilihan = ${pilihan} WHERE username = '${username}'`,
-                  (err, result) => {
-                    if (err) {
-                      console.log(err);
-                      res.status(400).json({
-                        message: "Gagal melakukan vote",
-                      });
-                    } else {
-                      res.status(200).json({
-                        message: "Berhasil melakukan vote",
-                      });
-                    }
-                  }
-                );
+      if (resultData.status === 0) {
+        connection.query(
+          `UPDATE paslon SET total=total+1 WHERE no_paslon = ${pilihan}`,
+          (err, rows) => {
+            if (err) throw err;
+
+            connection.query(
+              `UPDATE user SET pilihan=${pilihan}, status=1 WHERE username = '${username}' AND password = '${password}'`,
+              (err, resultnya) => {
+                if (resultnya) {
+                }
               }
-            }
-          );
-        } else {
-          res.status(400).json({
-            message: "Anda sudah melakukan vote",
-          });
-        }
+            );
+          }
+        );
+      } else {
+        console.log("Sudah");
       }
     }
   );
