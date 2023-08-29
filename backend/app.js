@@ -271,7 +271,22 @@ app.post("/api/feedback", (req, res) => {
 });
 app.get("/api/feedback", (req, res) => {
   db.collection("feedback")
-    .find()
+    .find({})
+    .toArray()
+    .then((result) => {
+      res.json(result);
+    });
+});
+app.post("/api/waktu", (req, res) => {
+  console.log(req.query.awal);
+  db.collection("waktu").updateOne(
+    { idnya: "0" },
+    { $set: { awal: req.query.awal, akhir: req.query.akhir } }
+  );
+});
+app.get("/api/waktu", (req, res) => {
+  db.collection("waktu")
+    .find({ idnya: "0" })
     .toArray()
     .then((result) => {
       res.json(result);
