@@ -9,28 +9,17 @@ import cors from "cors";
 
 const api_keyUpGambar =
   process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const client = new MongoClient(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient(uri);
 
 app.use(cors());
 
 const upload = multer({});
 // console.log(getJam());
-
-client.connect((err, client) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Berhasil konek ke mongo db");
-  }
-});
 
 // console.log(process.env);
 
@@ -297,6 +286,13 @@ app.get("/api/waktu", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server berjalan di port ${PORT}`);
+client.connect((err) => {
+  if (err) {
+    console.error(err);
+    return false;
+  }
+  // connection to mongo is successful, listen for requests
+  app.listen(PORT, () => {
+    console.log("listening for requests");
+  });
 });
