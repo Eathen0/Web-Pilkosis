@@ -245,6 +245,38 @@ app.get("/api/pemilih", (req, res) => {
       });
     });
 });
+app.post("/api/feedback", (req, res) => {
+  const nama = req.query.nama;
+  const kelas = req.query.kelas;
+  const kritik = req.query.kritik;
+  const saran = req.query.saran;
+
+  db.collection("feedback")
+    .insertOne({
+      nama,
+      kelas,
+      kritik,
+      saran,
+    })
+    .then((result) => {
+      res.status(200).json({
+        status: "Berhasil",
+      });
+    })
+    .catch((err) => {
+      res.json({
+        status: "Ada masalah",
+      });
+    });
+});
+app.get("/api/feedback", (req, res) => {
+  db.collection("feedback")
+    .find()
+    .toArray()
+    .then((result) => {
+      res.json(result);
+    });
+});
 
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);

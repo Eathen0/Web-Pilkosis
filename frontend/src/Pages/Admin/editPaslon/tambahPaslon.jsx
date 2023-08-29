@@ -8,7 +8,8 @@ import axios from "axios";
 import InputGambar from "./inputGambar";
 import InputText from "./inputText";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const url =
+  process.env.REACT_APP_API_URL || "https://dull-plum-deer-boot.cyclic.cloud";
 
 function TambahPaslon() {
   const navigate = useNavigate();
