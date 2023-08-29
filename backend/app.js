@@ -279,10 +279,14 @@ app.get("/api/feedback", (req, res) => {
 });
 app.post("/api/waktu", (req, res) => {
   console.log(req.query.awal);
-  db.collection("waktu").updateOne(
-    { idnya: "0" },
-    { $set: { awal: req.query.awal, akhir: req.query.akhir } }
-  );
+  db.collection("waktu")
+    .updateOne(
+      { idnya: "0" },
+      { $set: { awal: req.query.awal, akhir: req.query.akhir } }
+    )
+    .then((result) => {
+      res.json(result);
+    });
 });
 app.get("/api/waktu", (req, res) => {
   db.collection("waktu")

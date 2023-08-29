@@ -38,6 +38,19 @@ export default function Admin() {
       .catch((err) => {});
   }, []);
 
+  const Perbarui = () => {
+    axios({
+      method: "post",
+      url: `${url}/api/waktu`,
+      params: {
+        awal: dimulai,
+        akhir: berakhir,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
   const [page, setPage] = useState(1);
   const [SlideBarHide, setSlideBarHide] = useState(false);
 
@@ -132,27 +145,38 @@ export default function Admin() {
         }`}
       >
         <div className="flex w-full flex-col items-center">
-          <h1 className="font-bold text-xl">ATUR WAKTU PEMILIHAN</h1>
-          <div className="text-center mt-5">
-            <h1>WAKTU DIMULAI</h1>
-            <input
-              onChange={(e) => console.log(e.target.value)}
-              type="datetime-local"
-              name="waktuPemilihan"
-              id=""
-              className="border border-black p-2"
-            />
-          </div>
-          <div className="text-center mt-5">
-            <h1>WAKTU BERAKHIR</h1>
-            <input
-              type="datetime-local"
-              name="waktuPemilihan"
-              id=""
-              className="border border-black p-2"
-            />
-          </div>
-          <button className="btn bg-blue-500 mt-5">PERBARUI</button>
+          <form action="">
+            <h1 className="font-bold text-xl">ATUR WAKTU PEMILIHAN</h1>
+            <div className="text-center mt-5">
+              <h1>WAKTU DIMULAI</h1>
+              <input
+                onChange={(e) => setDimulai(e.target.value)}
+                type="datetime-local"
+                name="waktuPemilihan"
+                id=""
+                className="border border-black p-2"
+                required
+              />
+            </div>
+            <div className="text-center mt-5">
+              <h1>WAKTU BERAKHIR</h1>
+              <input
+                type="datetime-local"
+                name="waktuPemilihan"
+                required
+                id=""
+                className="border border-black p-2"
+                onChange={(e) => setBerakhir(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={Perbarui}
+              className="btn bg-blue-500 mt-5"
+            >
+              PERBARUI
+            </button>
+          </form>
         </div>
         {page == 1 ? (
           <ContextData.Provider value={paslon}>

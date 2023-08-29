@@ -15,6 +15,15 @@ export default function User() {
   const [page, setPage] = useState(1);
   const [paslon, setPaslon] = useState();
   const [dataLogin, setDataLogin] = useState();
+  const [waktuAwal, setWaktuAwal] = useState();
+  const [waktuAkhir, setWaktuAkhir] = useState();
+
+  const [hari, setHari] = useState();
+  const [jam, setJam] = useState();
+  const [menit, setMenit] = useState();
+  const [detik, setDetik] = useState();
+
+  const [pilih, setPilih] = useState(false);
   useEffect(() => {
     axios({
       method: "get",
@@ -24,7 +33,7 @@ export default function User() {
     });
     axios({
       method: "get",
-      url: `${url}}/api/login`,
+      url: `${url}/api/login`,
       params: {
         username: JSON.parse(localStorage.getItem("login")).username,
         password: JSON.parse(localStorage.getItem("login")).password,
@@ -32,7 +41,56 @@ export default function User() {
     }).then((res) => {
       setDataLogin(res.data);
     });
+    axios({
+      method: "get",
+      url: `${url}/api/waktu`,
+    }).then((res) => {
+      let waktu_awal = res.data[0].awal;
+      setWaktuAwal(new Date(waktu_awal));
+      let waktu_akhir = res.data[0].akhir;
+      setWaktuAkhir(new Date(waktu_akhir));
+    });
   }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      const waktu_sekarang = Date.now();
+      const date = new Date();
+      if (waktuAwal - waktu_sekarang <= 0) {
+        setPilih(true);
+        setHari(Math.floor((waktuAkhir - Date.now()) / 1000 / 60 / 60 / 24));
+        setJam(
+          Math.floor((waktuAkhir - Date.now()) % (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+        setMenit(
+          Math.floor(
+            ((waktuAkhir - Date.now()) % (1000 * 60 * 60)) / (1000 * 60)
+          )
+        );
+        setDetik(Math.floor(((waktuAkhir - Date.now()) % (1000 * 60)) / 1000));
+        // console.log(jam);
+      } else if (waktuAwal - waktu_sekarang >= 0) {
+        setPilih(false);
+        setHari(Math.floor((waktuAwal - Date.now()) / 1000 / 60 / 60 / 24));
+        setJam(
+          Math.floor((waktuAwal - Date.now()) % (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+        setMenit(
+          Math.floor(
+            ((waktuAwal - Date.now()) % (1000 * 60 * 60)) / (1000 * 60)
+          )
+        );
+        setDetik(Math.floor(((waktuAwal - Date.now()) % (1000 * 60)) / 1000));
+      }
+      // console.log(waktuAwal - waktu_sekarang);
+    }, 1000);
+
+    console.log(menit);
+    // console.log(waktuAwal.getDate());
+  }, [waktuAwal]);
 
   return (
     <>
@@ -111,16 +169,47 @@ export default function User() {
         isOn={SlideBarHide}
         switchPage={setPage}
       />
+
       <div
         className={`transition-[padding] md:pt-0 pt-16 ease-in-out pl-0 duration-500 ${
           SlideBarHide ? "md:pl-64 pt-96" : "md:pl-[3.9rem]"
         }`}
       >
+        <div className="w-full flex justify-center flex-col items-center">
+          <h1 className="text-3xl font-bold text-slate-950 mt-4">
+            WAKTU PEMILIHAN
+          </h1>
+          <div className="flex gap-5">
+            <div>
+              <span className=" font-mono text-4xl">
+                <span>{hari}</span>
+              </span>
+              HARI
+            </div>
+            <div>
+              <span className=" font-mono text-4xl">
+                <span>{Math.floor(jam)}</span>
+              </span>
+              JAM
+            </div>
+            <div>
+              <span className=" font-mono text-4xl">
+                <span>{Math.floor(menit)}</span>
+              </span>
+              MENIT
+            </div>
+            <div>
+              <span className=" font-mono text-4xl">
+                <span>{detik}</span>
+              </span>
+              DETIK
+            </div>
+          </div>
+        </div>
+
         {page == 1 ? (
           <ContextData.Provider value={paslon}>
-            <ContextLogin.Provider value={dataLogin}>
-              <Paslon isAdminPage={false} />
-            </ContextLogin.Provider>
+            <Paslon isAdminPage={false} dataLogin={dataLogin} pilih={pilih} />
           </ContextData.Provider>
         ) : page == 2 ? (
           <About />

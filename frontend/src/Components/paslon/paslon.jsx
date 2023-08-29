@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
-export default function Paslon({ isAdminPage }) {
+export default function Paslon({ isAdminPage, dataLogin, pilih }) {
   const navigate = useNavigate();
   const goToTambahPaslon = () => {
     navigate("/admin/tambahpaslon");
@@ -17,7 +17,7 @@ export default function Paslon({ isAdminPage }) {
   const [loading, setLoading] = useState(true);
 
   const data = useContext(ContextData);
-  const dataLogin = useContext(ContextLogin);
+  // const dataLogin = useContext(ContextLogin);
 
   useEffect(() => {
     setPaslon(data);
@@ -54,7 +54,7 @@ export default function Paslon({ isAdminPage }) {
         password: JSON.parse(localStorage.getItem("login")).password,
       },
     }).then((res) => {
-      // console.log(res.data);
+      console.log(res.data);
     });
   };
 
@@ -118,7 +118,7 @@ export default function Paslon({ isAdminPage }) {
                 >
                   VISI MISI PROKER
                 </label>
-                {!isVote & !isAdminPage ? (
+                {!isVote & pilih & !isAdminPage ? (
                   <button
                     className="h-8 w-40 py-1 text-center bg-red-500 rounded-md"
                     onClick={() => {
