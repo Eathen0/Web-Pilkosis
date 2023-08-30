@@ -9,12 +9,15 @@ import cors from "cors";
 
 const api_keyUpGambar =
   process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
-const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const client = new MongoClient(uri);
+const client = new MongoClient(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(cors());
 
@@ -286,13 +289,9 @@ app.get("/api/waktu", (req, res) => {
     });
 });
 
-client.connect((err) => {
-  if (err) {
-    console.error(err);
-    return false;
-  }
-  // connection to mongo is successful, listen for requests
-  app.listen(PORT, () => {
-    console.log("listening for requests");
-  });
+client.connect((err, client) => {
+  console.log(client);
+});
+app.listen(PORT, () => {
+  console.log(`Server berjalan di port ${PORT}`);
 });
