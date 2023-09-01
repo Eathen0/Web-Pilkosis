@@ -296,13 +296,15 @@ app.post("/api/chatbot", (req, res) => {
   const ibu = pesan[1];
   console.log(ibu);
   db.collection("user")
-    .findOne({ username: username, Ibu: ibu })
+    .findOne({ username: username, Ibu: ibu.toUpperCase() })
     .then((result) => {
       if (result) {
         res.json({
           data: [
             {
-              message: `Halo *${result.nama}*, anda sudah terdaftar sebagai pemilih, password anda adalah *${result.password}*`,
+              message: `Halo *${result.nama}*, anda sudah terdaftar sebagai pemilih, password anda adalah *${result.password}*
+                        
+              `,
             },
           ],
         });
