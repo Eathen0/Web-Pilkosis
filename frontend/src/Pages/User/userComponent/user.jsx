@@ -17,11 +17,13 @@ export default function User() {
   const [dataLogin, setDataLogin] = useState();
   const [waktuAwal, setWaktuAwal] = useState();
   const [waktuAkhir, setWaktuAkhir] = useState();
+  const [displayTeks, setDisplayTeks] = useState("");
 
   const [hari, setHari] = useState();
   const [jam, setJam] = useState();
   const [menit, setMenit] = useState();
   const [detik, setDetik] = useState();
+  const [berakhir, setBerakhir] = useState(false);
 
   const [pilih, setPilih] = useState(false);
   useEffect(() => {
@@ -86,6 +88,13 @@ export default function User() {
         setDetik(Math.floor(((waktuAwal - Date.now()) % (1000 * 60)) / 1000));
       }
       // console.log(waktuAwal - waktu_sekarang);
+
+      if (waktuAkhir - waktu_sekarang <= 0) {
+        // window.location.reload();
+        setBerakhir(true);
+        setPilih(false);
+        setDisplayTeks("Waktu pemilihan telah berakhir");
+      }
     }, 1000);
 
     console.log(menit);
@@ -179,32 +188,36 @@ export default function User() {
           <h1 className="text-3xl font-bold text-slate-950 mt-4">
             WAKTU PEMILIHAN
           </h1>
-          <div className="flex gap-5">
-            <div>
-              <span className=" font-mono text-4xl">
-                <span>{hari}</span>
-              </span>
-              HARI
+          {!berakhir <= 0 ? (
+            <p>{displayTeks}</p>
+          ) : (
+            <div className="flex gap-5">
+              <div>
+                <span className=" font-mono text-4xl">
+                  <span>{hari}</span>
+                </span>
+                HARI
+              </div>
+              <div>
+                <span className=" font-mono text-4xl">
+                  <span>{Math.floor(jam)}</span>
+                </span>
+                JAM
+              </div>
+              <div>
+                <span className=" font-mono text-4xl">
+                  <span>{Math.floor(menit)}</span>
+                </span>
+                MENIT
+              </div>
+              <div>
+                <span className=" font-mono text-4xl">
+                  <span>{detik}</span>
+                </span>
+                DETIK
+              </div>
             </div>
-            <div>
-              <span className=" font-mono text-4xl">
-                <span>{Math.floor(jam)}</span>
-              </span>
-              JAM
-            </div>
-            <div>
-              <span className=" font-mono text-4xl">
-                <span>{Math.floor(menit)}</span>
-              </span>
-              MENIT
-            </div>
-            <div>
-              <span className=" font-mono text-4xl">
-                <span>{detik}</span>
-              </span>
-              DETIK
-            </div>
-          </div>
+          )}
         </div>
 
         {page == 1 ? (

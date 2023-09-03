@@ -70,6 +70,7 @@ app.get("/api/login", (req, res) => {
           hak: data.hak,
           pilihan: data.pilihan,
         };
+        console.log(result);
         if (data.password === paswd) {
           statusLogin = true;
           res.status(200).json(userData);
