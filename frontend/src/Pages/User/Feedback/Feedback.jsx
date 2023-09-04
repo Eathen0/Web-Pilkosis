@@ -1,12 +1,20 @@
+import axios from "axios";
 import { useState } from "react"
+import { useOutletContext } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Feedback() {
+    const url = useOutletContext().url;
     const [kritik, setKritik] = useState();
     const [saran, setSaran] = useState();
     const [nama, setNama] = useState();
     const [kelas, setKelas] = useState();
 
+    const [disableClick, setDisableClick] = useState(false);
     const handleClick = () => {
+        setDisableClick(true)
+        const id = toast.loading('mohon tunggu...');
         axios({
             method: "post",
             url: `${url}/api/feedback`,
@@ -17,8 +25,17 @@ export default function Feedback() {
                 saran: saran,
             },
         }).then((res) => {
-            console.log(res);
-        });
+          toast.update(id, {
+            render: "Feedback di kirim",
+            type: "success",
+            position: "top-center",
+            autoClose: 2000,
+            draggable: true,
+            theme: "light",
+            isLoading: false,
+          });
+          window.location.reload()
+        }).finally(() => setDisableClick(false))
     };
 
     return (
@@ -26,7 +43,7 @@ export default function Feedback() {
             <div className="shadow-lg md:w-[70vw] w-full">
                 <div className="flex justify-center items-center w-full h-[4rem] rounded-t-2xl bg-gradient-to-br to-blue-600 from-10% from-[#40128B]">
                     <h1 className="text-xl md:text-3xl font-bold text-white">
-                        Komentar
+                        Feedback
                     </h1>
                 </div>
                 <div className="bg-blue-600/50 w-full h-auto rounded-b-2xl p-6 text-md">
@@ -75,14 +92,26 @@ export default function Feedback() {
                         </div>
                     </form>
                     <button
-                        onClick={handleClick}
-                        className="mt-6 hover:bg-blue-400 transition-colors rounded-full w-full h-[2rem] bg-blue-600 flex justify-center items-center"
+                        onClick={() => {!disableClick && handleClick()}}
+                        className={`${disableClick ? 'cursor-not-allowed' : 'hover:bg-blue-400 bg-blue-600'} mt-6 transition-colors rounded-full w-full h-[2rem] flex justify-center items-center`}
                         title="Kirim"
                     >
                         kirim
                     </button>
                 </div>
             </div>
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover
+              theme="light"
+            />
         </div>
     );
 }

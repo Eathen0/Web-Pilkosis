@@ -130,7 +130,7 @@ export default function User() {
           </div>
         )}
       </div>
-      <Outlet context={{paslon, dataLogin, pilih}}/>
+      <Outlet context={{paslon, dataLogin, pilih, url}}/>
     </>
   );
 }
