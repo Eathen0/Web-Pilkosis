@@ -10,9 +10,9 @@ import mysql from "mysql";
 
 // NOTE = MIGRASI MENGGUNAKAN MYSQL (AI GENERATED CODE)
 
-const api_keyUpGambar =
-  process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
+// const api_keyUpGambar =
+//   process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
+// const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = process.env.PORT || 8080;

@@ -1,7 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+import { useState } from "react"
 
 export default function Feedback() {
     const [kritik, setKritik] = useState();

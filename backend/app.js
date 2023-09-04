@@ -4,7 +4,7 @@ import multer from "multer";
 import axios from "axios";
 import FormData from "form-data";
 import cors from "cors";
-
+import bodyParser from "body-parser";
 // import Time from "./Time/time.js";
 
 const api_keyUpGambar =
@@ -20,7 +20,7 @@ const client = new MongoClient(url, {
 });
 
 app.use(cors());
-
+app.use(bodyParser.json());
 const upload = multer({});
 // console.log(getJam());
 
@@ -70,6 +70,7 @@ app.get("/api/login", (req, res) => {
           hak: data.hak,
           pilihan: data.pilihan,
         };
+        console.log(result);
         if (data.password === paswd) {
           statusLogin = true;
           res.status(200).json(userData);
@@ -286,6 +287,37 @@ app.get("/api/waktu", (req, res) => {
     .toArray()
     .then((result) => {
       res.json(result);
+    });
+});
+app.post("/api/chatbot", (req, res) => {
+  let pesan = req.body.senderMessage;
+  pesan = pesan.split("_");
+  const username = pesan[0].replace("/get ", "");
+  // const lahir = pesan[1];
+  const ibu = pesan[1];
+  console.log(ibu);
+  db.collection("user")
+    .findOne({ username: username, Ibu: ibu.toUpperCase() })
+    .then((result) => {
+      if (result) {
+        res.json({
+          data: [
+            {
+              message: `Halo *${result.nama}*, anda sudah terdaftar sebagai pemilih, password anda adalah *${result.password}*
+                        
+              `,
+            },
+          ],
+        });
+      } else {
+        res.json({
+          data: [
+            {
+              message: `Data tidak ditemukan`,
+            },
+          ],
+        });
+      }
     });
 });
 
