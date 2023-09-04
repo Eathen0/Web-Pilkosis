@@ -26,12 +26,13 @@ export default function LoginPage({ click }) {
     if (token) {
       navigate("/");
     }
+    document.title = 'Pilkosis - Login'
   });
 
   const [loadingLogin, setLoadingLogin] = useState(false);
   const login = () => {
     setLoadingLogin(true);
-    const id = toast.loading("Please wait...");
+    const id = toast.loading("Mohon tunggu ...");
     axios({
       method: "GET",
       url: `${url}/api/login`,

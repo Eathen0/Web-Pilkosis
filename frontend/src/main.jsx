@@ -1,54 +1,53 @@
-import { createContext } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App, { Logout } from "./App";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
+	BrowserRouter as Router,
+	Routes,
+	Route,
 } from "react-router-dom";
 import "./index.css";
 import User from "./Pages/User/userComponent/user";
 import Admin from "./Pages/Admin/adminComponent/admin";
-import LoginPage from "./Components/login-page/login";
-import UserAuth from "./authentication/userAuth";
-import AdminAuth from "./authentication/adminAuth";
+
 import ErrorPage from "./Components/error/error";
-import TambahPaslon from "./Pages/Admin/editPaslon/tambahPaslon";
+import LoginPage from "./Components/login-page/login";
 
-const data = { tes: "jfd" };
+import TambahPaslon from "./Pages/Admin/tambahPaslon/tambahPaslon";
+import Paslon from "./Components/paslon/paslon";
+import Grafik from "./Pages/Admin/grafik/grafik";
+import ViewFeedBack from "./Pages/Admin/viewFeedBack/viewFeedBack";
 
-export const ContextData = createContext();
-export const ContextLogin = createContext();
+import { UserAuth, AdminAuth } from "./authentication/auth";
+import About from "./Pages/User/About/about";
+import Feedback from "./Pages/User/Feedback/Feedback";
+import Countdown from "./Pages/Admin/countdown/countdown";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  < >
-    <Router>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/app" element={
-          <UserAuth>
-            <ContextData.Provider value={data}>
-              <ContextLogin.Provider value={data}>
-                <User />
-              </ContextLogin.Provider>
-            </ContextData.Provider>
-          </UserAuth>
-        }/>
-        <Route path="/admin">
-          <Route index element={
-            <AdminAuth>
-              <ContextData.Provider value={data}>
-                <ContextLogin.Provider value={data}>
-                  <Admin />
-                </ContextLogin.Provider>
-              </ContextData.Provider>
-            </AdminAuth>
-          }/>
-          <Route path="tambahpaslon" element={<AdminAuth><TambahPaslon /></AdminAuth>} />
-        </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </Router>
-  </>
+	<Router>
+		<Routes>
+			<Route path="/" element={<App />}>
+				<Route element={<AdminAuth />}>
+					<Route path="/admin" element={<Admin />}>
+						<Route index element={<Paslon />} />
+						<Route path="setcountdown" element={<Countdown />} />
+						<Route path="grafik" element={<Grafik />} />
+						<Route path="about" element={<About />} />
+						<Route path="feedback" element={<ViewFeedBack />} />
+						<Route path="logout" element={<Logout />} />
+						<Route path="tambahpaslon" element={<TambahPaslon />} />
+					</Route>
+				</Route>
+				<Route element={<UserAuth />}>
+					<Route path="/user" element={<User />}>
+						<Route index element={<Paslon />} />
+						<Route path="about" element={<About />} />
+						<Route path="feedback" element={<Feedback />} />
+						<Route path="logout" element={<Logout />} />
+					</Route>
+				</Route>
+			</Route>
+			<Route path="/login" element={<LoginPage />} />
+			<Route path="*" element={<ErrorPage />} />
+		</Routes>
+	</Router>
 );

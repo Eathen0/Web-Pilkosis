@@ -8,8 +8,7 @@ import axios from "axios";
 import InputGambar from "./inputGambar";
 import InputText from "./inputText";
 
-const url =
-  process.env.REACT_APP_API_URL || "https://dull-plum-deer-boot.cyclic.cloud";
+const url = process.env.REACT_APP_API_URL || "https://dull-plum-deer-boot.cyclic.cloud";
 
 function TambahPaslon() {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ function TambahPaslon() {
 
   const [loadingUpload, setLoadingUpload] = useState(false);
   const handleClick = () => {
-    const id = toast.loading("Please wait...");
+    const id = toast.loading("Mohon tunggu...");
     setLoadingUpload(true);
     const formData = new FormData();
     formData.append("no_paslon", dataInput.no_paslon);
@@ -66,7 +65,10 @@ function TambahPaslon() {
           theme: "light",
           isLoading: false,
         });
-        setDataInput({});
+        setTimeout(() => {
+          setDataInput(null);
+          navigate('/Admin');
+        }, 1000)
       })
       .catch((err) => {
         toast.update(id, {

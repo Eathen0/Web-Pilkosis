@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function SlideBar(props) {
    return (
         <div className={`${props.isOn ? "md:w-64 md:h-screen h-auto" : "md:w-[3.9rem] h-16"} z-50 overflow-hidden gap-12 shadow-[1px_0_10px_0px_black] font-sans text-white transition-[width_height] ease-in-out duration-500 w-full md:h-screen bg-gradient-to-br to-blue-600 from-10% from-[#40128B] p-4 fixed flex flex-col`}>
@@ -17,10 +19,10 @@ export default function SlideBar(props) {
             <div className="flex flex-col gap-8 grow">
                 {props.item.title.map((element, index) => {
                     return (
-                        <div key={element} onClick={() => props.switchPage(props.item.pageTarget[index])} className={`${props.isOn ? "hover:pl-4 hover:shadow-sm hover:shadow-black hover:bg-gradient-to-r from-white/25 to-transparent p-2" : "hover:bg-white/25 hover:scale-125 p-0"} whitespace-nowrap shadow-xl rounded-lg border-b-[1px] transition-[scale, padding] duration-300 pl-0.5 cursor-pointer`}>
+                        <Link to={props.item.pageTarget[index]} key={element} className={`${props.isOn ? "hover:pl-4 hover:shadow-sm hover:shadow-black hover:bg-gradient-to-r from-white/25 to-transparent p-2" : "hover:bg-white/25 hover:scale-125 p-0"} whitespace-nowrap shadow-xl rounded-lg border-b-[1px] transition-[scale, padding] duration-300 pl-0.5 cursor-pointer`}>
                             {props.item.logo[index]}
                             <span className={`${props.isOn ? "opaciry-100" : "opacity-0"} transition-[opacity] duration-500 inline-block`}>{element}</span>
-                        </div>
+                        </Link>
                     )
                 })}
             </div>
