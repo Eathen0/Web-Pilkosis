@@ -313,7 +313,11 @@ app.post("/api/chatbot", (req, res) => {
         res.json({
           data: [
             {
-              message: `Data tidak ditemukan`,
+              message: `Data tidak ditemukan 
+                        Silahkan hubungi nomor berikut untuk informasi lebih lanjut
+
+                        https://wa.me/message/KJL5XZYGFLQDG1
+              `,
             },
           ],
         });
@@ -321,9 +325,13 @@ app.post("/api/chatbot", (req, res) => {
     });
 });
 
-client.connect((err, client) => {
-  console.log(client);
-});
-app.listen(PORT, () => {
-  console.log(`Server berjalan di port ${PORT}`);
+client.connect((err) => {
+  if (err) {
+    console.error(err);
+    return false;
+  }
+  // connection to mongo is successful, listen for requests
+  app.listen(PORT, () => {
+    console.log(`listening for requests on port ${PORT}`);
+  });
 });
