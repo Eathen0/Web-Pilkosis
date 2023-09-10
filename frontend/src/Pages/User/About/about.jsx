@@ -28,12 +28,6 @@ export default function About() {
       kelas: 'X',
       jurusan: 'PPLG'
     },
-    {
-      foto: c3,
-      nama: 'Tegas Aditiansyah',
-      kelas: 'X',
-      jurusan: 'PPLG'
-    },
   ];
 
   return (
