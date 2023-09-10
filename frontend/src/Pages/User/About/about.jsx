@@ -1,17 +1,15 @@
-import c1 from './about-assets/c1.jpeg'
-import c2 from './about-assets/c2.jpeg'
 import c3 from './about-assets/c3.jpeg'
 
 export default function About() {
   const cartsMany = [
     {
-      foto: c1,
+      foto: c3,
       nama: 'Riziq Lili Ulil Albab',
       kelas: 'X',
       jurusan: 'PPLG'
     },
     {
-      foto: c2,
+      foto: c3,
       nama: 'Putri Nurinita Sari',
       kelas: 'X',
       jurusan: 'PPLG'
