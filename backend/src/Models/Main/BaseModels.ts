@@ -14,20 +14,40 @@ class BaseModel {
     public async All() {
         try {
             const result = client.query(`SELECT * FROM ${this.tableName}`)
-            return result;
+            return (await result).rows;
         } catch (err) {
             return err
         }
 
     }
-    public async Find(id: number) {
+    public async FindByID(id: number) {
         try {
             const result = client.query(`SELECT * FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
-            return result;
+            return (await result).rows;
         } catch (err) {
             return err
         }
     }
+    public async Find(condition: object) {
+        try {
+            let query = `SELECT * FROM ${this.tableName} WHERE `;
+            let i = 0;
+            for (const key in condition) {
+                if (i > 0) {
+                    query += " AND ";
+                }
+                query += `${key} = '${condition[key]}'`;
+                i++;
+            }
+            // console.log(query);
+
+            const result = client.query(query)
+            return (await result).rows;
+        } catch (err) {
+            return err
+        }
+    }
+
 
 }
 
