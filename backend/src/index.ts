@@ -5,7 +5,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 // IMPORT CONTROLLERS
-import login from "./Controllers/login";
+import login from "./Controllers/auth";
 
 const port = process.env.PORT || 3000;
 const app = express();

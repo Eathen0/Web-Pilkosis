@@ -47,7 +47,59 @@ class BaseModel {
             return err
         }
     }
+    public async insert(data: object) {
+        try {
+            let query = `INSERT INTO ${this.tableName} (`;
+            let values = "VALUES (";
+            let i = 0;
+            for (const key in data) {
+                if (i > 0) {
+                    query += ", ";
+                    values += ", ";
+                }
+                query += key;
+                values += `'${data[key]}'`;
+                i++;
+            }
+            query += ") ";
+            values += ") ";
+            query += values;
+            // console.log(query);
 
+            const result = client.query(query)
+            return (await result).rows;
+        } catch (err) {
+            return err
+        }
+    }
+
+    public async dropById(id: number) {
+        try {
+            const result = client.query(`DELETE FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
+            return (await result).rows;
+        } catch (err) {
+            return err
+        }
+    }
+    public async drop(condition: object) {
+        try {
+            let query = `DELETE FROM ${this.tableName} WHERE `;
+            let i = 0;
+            for (const key in condition) {
+                if (i > 0) {
+                    query += " AND ";
+                }
+                query += `${key} = '${condition[key]}'`;
+                i++;
+            }
+            // console.log(query);
+
+            const result = client.query(query)
+            return (await result).rows;
+        } catch (err) {
+            return err
+        }
+    }
 
 }
 
