@@ -14,7 +14,7 @@ router.get("/token", (req: Request, res: Response) => {
     try {
         const verify: JwtPayload | string = jwt.verify(token, process.env.SECRET_KEY)
         const username = verify['username']
-        const accessToken = jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: "30s" })
+        const accessToken = jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: "20m" })
         res.send({
             accessToken: accessToken
         })
