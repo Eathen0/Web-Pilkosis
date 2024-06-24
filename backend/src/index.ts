@@ -6,18 +6,20 @@ import cookieParser from 'cookie-parser'
 
 // IMPORT CONTROLLERS
 import login from "./Controllers/auth";
+import tokenController from './Controllers/tokenController'
+import voteController from './Controllers/voteController'
 
 const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router()
 
-app.use(router)
+
 app.use(bodyParser.json())
 app.use(cors())
 router.use(cookieParser())
 // router.use(cook)
 
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
     res.json({
         hello: "World",
         message: "Masukan endpoint API yang valid"
@@ -25,8 +27,9 @@ router.get("/", (req, res) => {
 })
 
 // use controllers
-app.use(login)
-
+app.use("/api", login)
+app.use("/api", tokenController)
+app.use("/api", voteController)
 
 
 app.listen(port, () => {

@@ -32,3 +32,9 @@ CREATE TABLE feedback (
     saran TEXT,
     PRIMARY KEY (id)
 )
+
+CREATE TABLE tokens (
+    id SERIAL,
+    token TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
