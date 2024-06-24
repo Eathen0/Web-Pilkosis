@@ -1,8 +1,8 @@
 import BaseModel from "./Main/BaseModels";
 
-class UserModel extends BaseModel {
+class PaslonModel extends BaseModel {
     protected tableName: string = "calon"
     protected primaryKey: string = "id"
 }
 
-export default UserModel;
+export default PaslonModel;

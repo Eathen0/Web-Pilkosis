@@ -14,7 +14,8 @@ const expire = 1000 * 60 * 60 * 24 * 30
 const generateRefreshToken = (payload: object) => {
     const tokenmodel = new TokenModel()
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: `${expire}ms`
+        expiresIn: `${expire}ms`,
+        algorithm: "HS384"
     })
     tokenmodel.insert({ token: token })
     return token
@@ -27,7 +28,9 @@ router.get("/login", async (req: Request, res: Response) => {
     try {
         const result: Array<object> = await user.Find({ username: username, paswd: paswd })
         if (result.length > 0) {
-            res.cookie("rfrsh", generateRefreshToken({ username: username }), { httpOnly: true, maxAge: expire })
+            res.cookie("rfrsh", generateRefreshToken({
+                username: username,
+            }), { httpOnly: true, maxAge: expire })
             res.json({
                 message: "berhasil",
             })
@@ -40,7 +43,6 @@ router.get("/login", async (req: Request, res: Response) => {
         console.log(err);
     }
 })
-
 router.post('/logout', async (req: Request, res: Response) => {
     const tokenmodel = new TokenModel()
     const token = req.cookies.rfrsh

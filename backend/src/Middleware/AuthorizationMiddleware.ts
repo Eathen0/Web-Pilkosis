@@ -12,7 +12,7 @@ function AuthorizationMiddleware(req: Request, res: Response, next: NextFunction
     // console.log(token);
 
     try {
-        jwt.verify(token, process.env.SECRET_KEY);
+        jwt.verify(token, process.env.SECRET_KEY, { algorithms: ["HS256"] });
         // console.log(verify["username"]);
         next()
     } catch {

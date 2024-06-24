@@ -9,10 +9,14 @@ lerna-debug.log*
 
 node_modules
 dist
+# .env.example
+uploads/*
 dist-ssr
 *.local
 *jpg
 *svg
+
+
 
 # Editor directories and files
 .vscode/*

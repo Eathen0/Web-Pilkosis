@@ -12,9 +12,9 @@ router.use(cookieParser())
 router.get("/token", (req: Request, res: Response) => {
     const token = req.cookies.rfrsh
     try {
-        const verify: JwtPayload | string = jwt.verify(token, process.env.SECRET_KEY)
+        const verify: JwtPayload | string = jwt.verify(token, process.env.SECRET_KEY, { algorithms: ["HS384"] })
         const username = verify['username']
-        const accessToken = jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: "20m" })
+        const accessToken = jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: "20m", algorithm: "HS256" })
         res.send({
             accessToken: accessToken
         })
