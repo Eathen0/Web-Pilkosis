@@ -8,25 +8,22 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import RefreshToken from "../../Utils/Refresh";
 
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const url = import.meta.env.VITE_HOST_BACKEND;
 
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  // const [respon, setRespon] = useState();
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   console.log("Tes");
-  // }, [respon]);
 
   const token = localStorage.getItem("login");
   useEffect(() => {
     if (token) {
       navigate("/");
     }
-    document.title = 'Pilkosis - Login'
+    document.title = "Pilkosis - Login";
   });
 
   const [loadingLogin, setLoadingLogin] = useState(false);
@@ -40,8 +37,10 @@ export default function LoginPage({ click }) {
         username,
         password,
       },
+      withCredentials: true,
     })
       .then((res) => {
+        console.log(res.data);
         localStorage.setItem("login", JSON.stringify(res.data));
         toast.update(id, {
           render: "Anda berhasil login",
@@ -52,7 +51,7 @@ export default function LoginPage({ click }) {
           theme: "light",
           isLoading: false,
         });
-        setTimeout(() => window.location.reload(), 500);
+        // setTimeout(() => window.location.reload(), 500);
       })
       .catch((err) => {
         toast.update(id, {

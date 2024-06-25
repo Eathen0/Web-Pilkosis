@@ -4,12 +4,15 @@ import UserModel from "../Models/User";
 import jwt from 'jsonwebtoken'
 import TokenModel from "../Models/TokenModel";
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 dotenv.config()
 
 const router: Router = express.Router()
 const user = new UserModel()
 const expire = 1000 * 60 * 60 * 24 * 30
+
+
 
 const generateRefreshToken = (payload: object) => {
     const tokenmodel = new TokenModel()
@@ -25,9 +28,13 @@ router.get("/login", async (req: Request, res: Response) => {
     const username = req.query.username;
     const paswd = req.query.password;
 
+    console.log(username, paswd);
+
+
     try {
         const result: Array<object> = await user.Find({ username: username, paswd: paswd })
         if (result.length > 0) {
+            res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL)
             res.cookie("rfrsh", generateRefreshToken({
                 username: username,
             }), { httpOnly: true, maxAge: expire })

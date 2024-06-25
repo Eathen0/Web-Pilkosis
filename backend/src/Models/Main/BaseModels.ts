@@ -1,19 +1,24 @@
 import client from "../../utils/db";
-client.connect().then(() => console.log("Connected to database")).catch((err) => console.log(err.message));
-
+client.connect().then(() => console.log("Connected to database")).catch((err) => console.log(err.message))
 
 class BaseModel {
+    protected client = client;
     protected tableName: string = "siswa";
     protected primaryKey: string = "id";
 
+
+
     public HelloWorld() {
         console.log("hello world");
+
         return "Hello world"
     }
 
     public async All() {
         try {
-            const result = client.query(`SELECT * FROM ${this.tableName}`)
+
+
+            const result = this.client.query(`SELECT * FROM ${this.tableName}`)
             return (await result).rows;
         } catch (err) {
             return err
@@ -22,7 +27,7 @@ class BaseModel {
     }
     public async FindByID(id: number) {
         try {
-            const result = client.query(`SELECT * FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
+            const result = this.client.query(`SELECT * FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
             return (await result).rows;
         } catch (err) {
             return err
@@ -41,7 +46,7 @@ class BaseModel {
             }
             // console.log(query);
 
-            const result = client.query(query)
+            const result = this.client.query(query)
             return (await result).rows;
         } catch (err) {
             return err
@@ -66,16 +71,21 @@ class BaseModel {
             query += values;
             // console.log(query);
 
-            const result = client.query(query)
-            return (await result).rows;
+
+            const result = this.client.query(query)
+            // console.log(await result);
+
+            return result
         } catch (err) {
+            console.log(err);
             return err
+
         }
     }
 
     public async dropById(id: number) {
         try {
-            const result = client.query(`DELETE FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
+            const result = this.client.query(`DELETE FROM ${this.tableName} WHERE ${this.primaryKey} = ${id}`)
             return (await result).rows;
         } catch (err) {
             return err
@@ -94,7 +104,7 @@ class BaseModel {
             }
             // console.log(query);
 
-            const result = client.query(query)
+            const result = this.client.query(query)
             return (await result).rows;
         } catch (err) {
             return err

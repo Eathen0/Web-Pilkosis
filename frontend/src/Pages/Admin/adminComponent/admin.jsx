@@ -5,6 +5,7 @@ import { Outlet, useLocation } from "react-router-dom";
 const url = "https://dull-plum-deer-boot.cyclic.cloud";
 
 export default function Admin() {
+  // console.log(1);
   const [paslon, setPaslon] = useState();
   const [dataLogin, setDataLogin] = useState();
 
@@ -32,7 +33,7 @@ export default function Admin() {
 
   return (
     <div className="w-full h-screen">
-      <Outlet context={{paslon, dataLogin}} />
+      <Outlet context={{ paslon, dataLogin }} />
     </div>
   );
 }

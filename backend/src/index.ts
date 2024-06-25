@@ -17,6 +17,11 @@ const router = express.Router()
 
 app.use(bodyParser.json())
 app.use(cors())
+router.use(cors({
+    origin: "http://localhost:5173/",
+    credentials: true
+
+}))
 router.use(cookieParser())
 
 app.get("/", (req, res) => {
