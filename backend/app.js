@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import express from "express";
 import { MongoClient } from "mongodb";
 import multer from "multer";

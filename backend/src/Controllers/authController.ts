@@ -12,8 +12,6 @@ const router: Router = express.Router()
 const user = new UserModel()
 const expire = 1000 * 60 * 60 * 24 * 30
 
-
-
 const generateRefreshToken = (payload: object) => {
     const tokenmodel = new TokenModel()
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -34,7 +32,7 @@ router.get("/login", async (req: Request, res: Response) => {
     try {
         const result: Array<object> = await user.Find({ username: username, paswd: paswd })
         if (result.length > 0) {
-            res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL)
+            // res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL)
             res.cookie("rfrsh", generateRefreshToken({
                 username: username,
             }), { httpOnly: true, maxAge: expire })

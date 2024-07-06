@@ -16,11 +16,9 @@ const app = express();
 const router = express.Router()
 
 app.use(bodyParser.json())
-app.use(cors())
-router.use(cors({
-    origin: "http://localhost:5173/",
-    credentials: true
-
+app.use(cors({
+    origin: 'http://localhost:5173', // Replace with your frontend's origin
+    credentials: true // 
 }))
 router.use(cookieParser())
 
