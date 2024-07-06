@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import SlideBar from "./Components/slide-bar/slidebar";
 import {
@@ -10,6 +10,7 @@ import {
   TimeIcon,
 } from "./Components/icons/icons";
 import RefreshToken from "./Utils/Refresh";
+import userContext from "./Context/userContext";
 
 export function Logout() {
   localStorage.clear();
@@ -17,6 +18,10 @@ export function Logout() {
 }
 
 export default function App() {
+  const context = useContext(userContext);
+
+  // console.log(context);
+
   const pathName = useLocation().pathname;
   const navigate = useNavigate();
   const [sideBarItems, setSidebarItem] = useState({
@@ -31,7 +36,6 @@ export default function App() {
   });
 
   useEffect(() => {
-    console.log(RefreshToken());
     const token = localStorage.getItem("login");
     if (token === null) {
       navigate("/login");

@@ -18,7 +18,7 @@ const usermodel = new UserModel()
 
 router.get("/token", async (req: Request, res: Response) => {
     const token = req.cookies.rfrsh
-    console.log(token);
+    // console.log(token);
 
     try {
         const verify: JwtPayload | string = jwt.verify(token, process.env.SECRET_KEY, { algorithms: ["HS384"] })
@@ -27,6 +27,7 @@ router.get("/token", async (req: Request, res: Response) => {
         const userData = user[0]
 
         const accessToken = jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: "20m", algorithm: "HS256" })
+        // res.h
         res.send({
             accessToken: accessToken,
             data: {

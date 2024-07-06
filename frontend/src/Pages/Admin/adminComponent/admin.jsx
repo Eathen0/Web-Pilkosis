@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Outlet, useLocation } from "react-router-dom";
+import RefreshToken from "../../../Utils/Refresh";
 
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+
+const url = env.VITE_HOST_BACKEND;
 
 export default function Admin() {
-  // console.log(1);
   const [paslon, setPaslon] = useState();
   const [dataLogin, setDataLogin] = useState();
 

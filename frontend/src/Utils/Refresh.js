@@ -1,20 +1,15 @@
 import axios from "axios";
-
 const url = import.meta.env.VITE_HOST_BACKEND;
 
-function RefreshToken() {
-  axios({
+async function RefreshToken() {
+  const result = await axios({
     method: "get",
-    url: `${url}api/token`,
+    url: `${url}/api/token`,
     withCredentials: true,
-  })
-    .then((res) => {
-      console.log(res.data);
-      return res.data;
-    })
-    .catch((err) => {
-      return err;
-    });
+  });
+
+  // console.log("sd");
+  return await result.data;
 }
 
 export default RefreshToken;
