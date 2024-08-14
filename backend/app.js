@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 
 const api_keyUpGambar =
   process.env.API_KEY_UPGAMBAR || "e0f70b04483970cd5bec8a44e8faaf14";
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const url = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
 const dbName = "pilkosis";
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -29,8 +29,17 @@ const upload = multer({});
 const db = client.db(dbName);
 
 app.get("/", (req, res) => {
+  const tes = db
+    .collection("users")
+    .find({})
+    .toArray()
+    .then((result) => {
+      return result;
+    });
+
   res.json({
     message: "PERGI KE /api",
+    users: tes,
   });
 });
 
@@ -44,17 +53,19 @@ app.get("/api/login", (req, res) => {
   const username = req.query.username.toString();
   const paswd = req.query.password;
 
+  // console.log(username, paswd);
+
   let statusLogin = false;
 
   // console.log(username, paswd);
 
-  db.collection("user")
+  db.collection("users")
     .findOne({
       username: username,
       password: paswd,
     })
     .then((result) => {
-      // console.log(result.nama);
+      console.log(result);
 
       const data = result;
 
@@ -176,7 +187,7 @@ app.put("/api/vote", (req, res) => {
   const pilihan = req.query.pilihan;
   const password = req.query.password;
 
-  db.collection("user")
+  db.collection("users")
     .findOne({
       username: username,
       password: password,

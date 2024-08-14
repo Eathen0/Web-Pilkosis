@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+const url = env.VITE_BACKEND_URL;
 
 const Misi = ({ id }) => {
   const context = useOutletContext();

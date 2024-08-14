@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Outlet, useLocation } from "react-router-dom";
-
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+const url = env.VITE_BACKEND_URL;
 
 export default function Admin() {
   const [paslon, setPaslon] = useState();
@@ -32,7 +32,7 @@ export default function Admin() {
 
   return (
     <div className="w-full h-screen">
-      <Outlet context={{paslon, dataLogin}} />
+      <Outlet context={{ paslon, dataLogin }} />
     </div>
   );
 }

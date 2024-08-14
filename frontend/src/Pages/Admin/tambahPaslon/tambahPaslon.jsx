@@ -8,7 +8,8 @@ import axios from "axios";
 import InputGambar from "./inputGambar";
 import InputText from "./inputText";
 
-const url = process.env.REACT_APP_API_URL || "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+const url = env.VITE_BACKEND_URL;
 
 function TambahPaslon() {
   const navigate = useNavigate();
@@ -67,8 +68,8 @@ function TambahPaslon() {
         });
         setTimeout(() => {
           setDataInput(null);
-          navigate('/Admin');
-        }, 1000)
+          navigate("/Admin");
+        }, 1000);
       })
       .catch((err) => {
         toast.update(id, {

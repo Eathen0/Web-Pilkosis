@@ -9,7 +9,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+const url = env.VITE_BACKEND_URL;
 
 export default function LoginPage({ click }) {
   const [username, setUsername] = useState();
@@ -26,7 +27,7 @@ export default function LoginPage({ click }) {
     if (token) {
       navigate("/");
     }
-    document.title = 'Pilkosis - Login'
+    document.title = "Pilkosis - Login";
   });
 
   const [loadingLogin, setLoadingLogin] = useState(false);

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 
-const url = "https://dull-plum-deer-boot.cyclic.cloud";
+const env = import.meta.env;
+const url = env.VITE_BACKEND_URL;
 
 export default function User() {
   const [paslon, setPaslon] = useState();
@@ -46,7 +47,7 @@ export default function User() {
       setWaktuAkhir(new Date(waktu_akhir));
     });
   }, []);
-  
+
   useEffect(() => {
     setInterval(() => {
       const waktu_sekarang = Date.now();
@@ -105,32 +106,32 @@ export default function User() {
           <div className="flex gap-5">
             <div>
               <span className=" font-mono text-4xl">
-                <span>{isNaN(hari) ? '00' : hari}</span>
+                <span>{isNaN(hari) ? "00" : hari}</span>
               </span>
               HARI
             </div>
             <div>
               <span className=" font-mono text-4xl">
-                <span>{isNaN(jam) ? '00' : Math.floor(jam)}</span>
+                <span>{isNaN(jam) ? "00" : Math.floor(jam)}</span>
               </span>
               JAM
             </div>
             <div>
               <span className=" font-mono text-4xl">
-                <span>{isNaN(menit) ? '00' : Math.floor(menit)}</span>
+                <span>{isNaN(menit) ? "00" : Math.floor(menit)}</span>
               </span>
               MENIT
             </div>
             <div>
               <span className=" font-mono text-4xl">
-                <span>{isNaN(detik) ? '00' : detik}</span>
+                <span>{isNaN(detik) ? "00" : detik}</span>
               </span>
               DETIK
             </div>
           </div>
         )}
       </div>
-      <Outlet context={{paslon, dataLogin, pilih, url}}/>
+      <Outlet context={{ paslon, dataLogin, pilih, url }} />
     </>
   );
 }
