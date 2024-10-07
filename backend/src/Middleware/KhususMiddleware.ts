@@ -19,7 +19,7 @@ async function AuthorizationMiddleware(req: Request, res: Response, next: NextFu
         const user = new UserModel();
         const userDetail = await user.Find({ nis });
         
-        // cek role ,mbok udu admin
+        
         if (userDetail.length > 0 && userDetail[0].role_user === "khusus") {
             next();
         } else {

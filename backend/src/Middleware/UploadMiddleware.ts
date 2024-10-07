@@ -3,13 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import { Request } from 'express';
 
-// Determine the upload directory
+
 const uploadsDir = path.resolve(__dirname, '../uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Define custom StorageEngine type
 const storage: StorageEngine = {
     _handleFile: (req: Request, file: Express.Multer.File, cb: (error: Error | null, info?: Partial<Express.Multer.File>) => void) => {
         const uniqueFilename = `${Date.now()}-${file.originalname}`;

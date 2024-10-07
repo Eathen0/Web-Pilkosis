@@ -43,8 +43,8 @@ router.post("/login", async (req, res) => {
             res.cookie("rfrsh", refreshToken, {
                 httpOnly: true,
                 maxAge: expire,
-                sameSite: 'none', // Mengizinkan cross-origin requests
-                secure: true      // Mengharuskan HTTPS
+                sameSite: 'none', 
+                secure: true      
             });
 
             res.json({ message: "Login berhasil" });

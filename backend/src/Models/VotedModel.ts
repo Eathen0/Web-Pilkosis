@@ -2,6 +2,7 @@ import BaseModel from "./Main/BaseModels";
 import { RowDataPacket, ResultSetHeader, OkPacket } from 'mysql2';
 import pool from "../utils/db";
 
+
 class VotedModel extends BaseModel {
     protected tableName: string = "voted";
     protected primaryKey: string = "id";
@@ -36,8 +37,6 @@ class VotedModel extends BaseModel {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
-    
-            // Retrieve the current vote for the user
             const [existingVoteRows] = await connection.query<RowDataPacket[]>(
                 `SELECT voted_caksis, voted_cawaksis FROM ${this.tableName} WHERE user_id = ?`,
                 [userId]
@@ -48,16 +47,12 @@ class VotedModel extends BaseModel {
             }
     
             const existingVote = existingVoteRows[0];
-    
-            // Prepare the updates and values arrays
             const updates: string[] = [];
             const values: any[] = [];
     
             if (data.voted_caksis !== undefined) {
                 updates.push("voted_caksis = ?");
                 values.push(data.voted_caksis);
-    
-                // Increment total for the new caksis
                 if (data.voted_caksis) {
                     await connection.query<OkPacket>(
                         `UPDATE calon SET total = total + 1 WHERE id = ?`,
@@ -69,8 +64,6 @@ class VotedModel extends BaseModel {
             if (data.voted_cawaksis !== undefined) {
                 updates.push("voted_cawaksis = ?");
                 values.push(data.voted_cawaksis);
-    
-                // Increment total for the new cawaksis
                 if (data.voted_cawaksis) {
                     await connection.query<OkPacket>(
                         `UPDATE calon SET total = total + 1 WHERE id = ?`,
@@ -143,8 +136,6 @@ class VotedModel extends BaseModel {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
-    
-            // Find the vote record by id to get the candidate it belongs to
             const [voteRecords] = await connection.query<RowDataPacket[]>(
                 `SELECT voted_caksis, voted_cawaksis FROM ${this.tableName} WHERE ${this.primaryKey} = ?`,
                 [id]
@@ -157,8 +148,6 @@ class VotedModel extends BaseModel {
             const voteRecord = voteRecords[0];
             const votedCaksis = voteRecord.voted_caksis;
             const votedCawaksis = voteRecord.voted_cawaksis;
-    
-            // Decrement the total count for the candidate
             if (votedCaksis) {
                 console.log(votedCaksis)
                 await connection.query<OkPacket>(
@@ -174,8 +163,6 @@ class VotedModel extends BaseModel {
                     [votedCawaksis]
                 );
             }
-    
-            // Delete the vote record
             const [result] = await connection.query<ResultSetHeader>(
                 `DELETE FROM ${this.tableName} WHERE ${this.primaryKey} = ?`,
                 [id]
@@ -192,10 +179,6 @@ class VotedModel extends BaseModel {
         }
     }
     
-        // Other methods in the class remain unchanged
-
-    
-
     public async checkUserVote(userId: number): Promise<RowDataPacket[]> {
         try {
             const query = `SELECT voted_caksis, voted_cawaksis FROM ${this.tableName} WHERE user_id = ? limit 1`;
@@ -206,6 +189,7 @@ class VotedModel extends BaseModel {
             throw err;
         }
     }
+ 
 }
 
 export default VotedModel;

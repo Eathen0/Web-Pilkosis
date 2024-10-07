@@ -1,3 +1,3 @@
 ## PROJEK WEB PILKOSIS
 
-okeoke
+JANGAN NYOLONG!!!!

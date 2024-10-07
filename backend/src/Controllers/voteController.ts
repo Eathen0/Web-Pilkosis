@@ -10,16 +10,13 @@ const votedModel = new VotedModel();
 const router = express.Router();
 router.use(cookieParser());
 
-// Define the deadline variable at the top of your file
-// const VOTING_DEADLINE = new Date('2024-09-23T19:00:00+07:00'); // For UTC+7
-const VOTING_DEADLINE = new Date() ; // For UTC+7
-// Update the deadline as needed
+let votingDeadline: Date | null = null; 
+
 
 router.post("/vote", AuthorizationMiddleware, async (req: CustomRequest, res: Response) => {
     const now = new Date();
 
-    // Check if the current time is past the deadline
-    if (now > VOTING_DEADLINE) {
+    if (votingDeadline && now > votingDeadline) {
         return res.status(400).json({
             message: "Voting has ended"
         });
@@ -67,7 +64,7 @@ router.post("/vote", AuthorizationMiddleware, async (req: CustomRequest, res: Re
             await votedModel.insert({ user_id: userId, ...updateData });
         }
 
-        await votedModel.updateTotalInCalon(paslonId)
+        await votedModel.updateTotalInCalon(paslonId);
 
         return res.status(200).json({
             message: `Vote for ${voteType} cast successfully`
@@ -151,6 +148,14 @@ router.get('/checkUserVote', AuthorizationMiddleware, async (req: CustomRequest,
             error: err.message
         });
     }
+});
+router.post("/setDeadline", [AuthorizationMiddleware, RoleMiddleware(['admin'])], (req: CustomRequest, res: Response) => {
+    const { deadline } = req.body; 
+
+    
+    votingDeadline = new Date(deadline);
+    
+    return res.status(200).json({ message: 'Voting deadline updated', deadline: votingDeadline });
 });
 
 export default router;

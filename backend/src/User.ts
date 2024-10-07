@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2/promise";
 import BaseModel from "./Main/BaseModels";
 
+// Interface Siswa (optional, bisa gunakan jika sudah dideklarasikan sebelumnya)
 interface Siswa {
     id: number;
     nama: string;

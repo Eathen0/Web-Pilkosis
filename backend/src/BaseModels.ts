@@ -1,3 +1,4 @@
+// BaseModel.ts
 import pool from '../../utils/db';  
 
 class BaseModel {
@@ -83,36 +84,7 @@ class BaseModel {
         }
     }
 
-    // Method untuk menyisipkan banyak data sekaligus
-    public async insertMany(dataArray: { [key: string]: any }[]): Promise<any> {
-        if (dataArray.length === 0) return [];
-
-        try {
-            let query = `INSERT INTO ${this.tableName} (`;
-            const keys = Object.keys(dataArray[0]);
-            query += keys.join(', ') + ') VALUES ';
-
-            const values: any[] = [];
-            const rows = dataArray.map(data => {
-                return '(' + keys.map(() => '?').join(', ') + ')';
-            }).join(', ');
-
-            query += rows;
-
-            dataArray.forEach(data => {
-                keys.forEach(key => {
-                    values.push(data[key]);
-                });
-            });
-
-            const [result] = await this.client.query(query, values);
-            return result;
-        } catch (err) {
-            console.error('Error inserting multiple records:', err);
-            throw new Error('Failed to insert multiple records');
-        }
-    }
-
+    // Method untuk memperbarui data berdasarkan ID
     public async updateById(id: number, data: { [key: string]: any }): Promise<any> {
         try {
             let query = `UPDATE ${this.tableName} SET `;
@@ -168,6 +140,44 @@ class BaseModel {
             return err;
         }
     }
+    public async insertMany(dataArray: { [key: string]: any }[]): Promise<any> {
+        try {
+            if (dataArray.length === 0) {
+                throw new Error('No data provided for insertion');
+            }
+    
+            let query = `INSERT INTO ${this.tableName} (`;
+            const placeholders = [];
+            const values: any[] = [];
+    
+            // Ambil keys dari data pertama, asumsinya semua data memiliki struktur field yang sama
+            const keys = Object.keys(dataArray[0]);
+    
+            // Buat placeholder untuk keys
+            query += keys.join(', ') + ') VALUES ';
+    
+            // Loop melalui setiap data di dataArray dan buat placeholder untuk masing-masing baris
+            dataArray.forEach((data, index) => {
+                if (index > 0) {
+                    query += ", ";
+                }
+    
+                const rowPlaceholders = keys.map(() => '?').join(', ');
+                query += `(${rowPlaceholders})`;
+    
+                keys.forEach((key) => {
+                    values.push(data[key]);
+                });
+            });
+    
+            const [result] = await this.client.query(query, values);
+            return result;
+        } catch (err) {
+            console.error('Error inserting multiple records:', err);
+            throw new Error('Failed to insert multiple records');
+        }
+    }    
 }
+
 
 export default BaseModel;
