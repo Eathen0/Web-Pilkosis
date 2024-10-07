@@ -71,8 +71,8 @@ export default function LoginPage () {
 			<CPopup>
 				<form onSubmit={handdleGetPass}>
 					<h1 className="text-center text-xl">Ambil Password</h1>
-					<CInput required type="number" name="nis" placeholder="nomor NIS mu" className="lg:w-[30vw] w-[80vw] max" />
-					<CInput required name="nama_ibu" placeholder="nama ibu mu" className="lg:w-[30vw] w-[80vw] max" />
+					<CInput required type="number" name="nis" placeholder="nomor NIS mu" className="lg:w-[30vw] w-[80vw] max-w-[30rem]" />
+					<CInput required name="nama_ibu" placeholder="nama ibu mu" className="lg:w-[30vw] w-[80vw] max-w-[30rem]" />
 					<CButton type="submit" className="self-end px-10 mt-10">Kirim</CButton>
 				</form>
 			</CPopup>

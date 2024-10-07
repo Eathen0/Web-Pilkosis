@@ -20,8 +20,6 @@ interface DetailVote {
    voted_cawaksis?: number
 }
 
-let dataDetailVote_absolute: DetailVote[] | undefined;
-
 
 export default function DetailVote () {
    const navigate = useNavigate()
@@ -52,15 +50,19 @@ export default function DetailVote () {
       })
    }
 
-   useEffect(() => { dataDetailVote_absolute = dataDetailVote }, [])
+   const [searchableDVote, setSearchableDVote] = useState<DetailVote[] | undefined>()
+   useEffect(() => { 
+      if (dataDetailVote)
+         setSearchableDVote(dataDetailVote)
+   }, [dataDetailVote])
    const [searchText, setSearchText] = useState('')
    const handdleSearch = (ev: any) => {
       ev.preventDefault()
       
-      if (searchText.length === 0) return setDataDetailVote(dataDetailVote_absolute)
+      if (searchText.length === 0) return setSearchableDVote(dataDetailVote)
 
       const searchResult = dataDetailVote?.filter(data => data.pemilih.toLowerCase().includes(searchText.toLowerCase()))
-      if (searchResult) setDataDetailVote(searchResult)
+      if (searchResult) setSearchableDVote(searchResult)
    }
 
    return (
@@ -85,7 +87,7 @@ export default function DetailVote () {
                </tr>
             </thead>
             <tbody>
-               {dataDetailVote?.map((data, index) => (
+               {searchableDVote?.map((data, index) => (
                   <tr key={index} className="h-14">
                      <td className="text-center min-w-52 border border-primary">{ data.pemilih }</td>
                      <td className="text-center min-w-52 border border-primary">{ new Date(data.created_at).toLocaleString('id', {dateStyle: 'medium', timeStyle: 'medium'}) }</td>

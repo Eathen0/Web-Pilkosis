@@ -12,6 +12,7 @@ import tryRequest from "@utils/tryRequest"
 import cache from "@utils/cache"
 import authorizer from "@utils/authorizer"
 
+const origin = import.meta.env.VITE_HOST_BACKEND
 
 type DataCalon = {
    id: string;
@@ -86,7 +87,7 @@ export default function ListCalon () {
                   children={(data: DataCalon[]) => 
                      data.map((item, index) => (
                         <div key={index} className="flex gap-4 items-center mb-4">
-                           <CImage src={item.img} alt={item.nama} className="w-20 h-20 rounded-full object-cover border border-accent-primary" />
+                           <CImage src={`${origin}/uploads/${item.img}`} alt={item.nama} className="w-20 h-20 rounded-full object-cover border border-accent-primary" />
                            <div className="grow">
                               <p>
                                  <span className="font-semibold">Nama: </span>
@@ -114,7 +115,7 @@ export default function ListCalon () {
                   children={(data: DataCalon[]) => 
                      data.map((item, index) => (
                         <div key={index} className="flex gap-4 items-center mb-4">
-                           <CImage src={item.img} alt={item.nama} className="w-20 h-20 rounded-full object-cover border border-accent-primary" />
+                           <CImage src={`${origin}/uploads/${item.img}`} alt={item.nama} className="w-20 h-20 rounded-full object-cover border border-accent-primary" />
                            <div className="grow">
                               <p>
                                  <span className="font-semibold">Nama: </span>
